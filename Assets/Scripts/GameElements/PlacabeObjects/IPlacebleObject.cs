@@ -2,7 +2,11 @@ using System.Drawing;
 
 public interface IPlacebleObject
 {
+    Point GetLocalPosition();
+
     void SetPosition(Point position);
 
-    Point GetPosition();
+    bool CanPlace();
+
+    void Place();
 }

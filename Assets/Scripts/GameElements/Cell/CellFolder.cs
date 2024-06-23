@@ -15,6 +15,7 @@ public sealed class CellFolder
 
     public bool CellExists(Point position) =>
         cells.Any(c => c.Position == position);
+
     public bool CellExists(int x, int y) =>
         CellExists(new Point(x, y));
 

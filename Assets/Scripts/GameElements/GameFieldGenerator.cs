@@ -5,9 +5,7 @@ using Zenject;
 public class GameFieldGenerator : MonoBehaviour
 {
     [Inject]
-    public void Inject(
-        Tracer tracer,
-        CellFolder cellFolder)
+    public void Inject(Tracer tracer, CellFolder cellFolder)
     {
         _tracer = tracer;
         _cellFolder = cellFolder;
@@ -21,6 +19,7 @@ public class GameFieldGenerator : MonoBehaviour
         GenerateField();
     }
 
+    [ContextMenu("Clear Cells")]
     private void ClearChildren()
     {
         while (transform.childCount > 0)
@@ -33,6 +32,13 @@ public class GameFieldGenerator : MonoBehaviour
     {
         _tracer.TraceDebug("Starting generate field");
         ClearChildren();
+        InstanciateCells();
+        _tracer.TraceDebug("Field Generating ended");
+    }
+
+    [ContextMenu("Intanciate Cells")]
+    private void InstanciateCells()
+    {
         int _size = _radius * 2;
 
         for (int y = -_size / 2; y <= _size / 2; y++)
@@ -49,15 +55,15 @@ public class GameFieldGenerator : MonoBehaviour
 
                 gameObject.name = $"cell ({x}, {y})";
                 gameObject.transform.parent = transform;
-                
+
                 var cell = gameObject.GetComponent<Cell>();
                 cell.Init(new CellInformation(new Point(x, y)));
-                _cellFolder.AddCell(cell);
+                _cellFolder?.AddCell(cell);
             }
         }
-        _tracer.TraceDebug("Field Generating ended");
     }
-    public bool IsCoordinateOnField(int x, int y)
+
+    private bool IsCoordinateOnField(int x, int y)
     {
         return !(
             y % 2 == 0

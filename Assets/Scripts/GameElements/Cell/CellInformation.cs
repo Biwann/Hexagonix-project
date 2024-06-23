@@ -41,5 +41,8 @@ public class CellInformation
 
     public bool IsEmpty => _item == null;
 
+    public bool EqualTo(CellInformation otherCell)
+        => otherCell != null && otherCell.Position.Equals(Position);
+
     private IPlacebleObject _item;
 }

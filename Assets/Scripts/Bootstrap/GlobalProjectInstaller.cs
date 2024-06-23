@@ -6,6 +6,6 @@ public class GlobalProjectInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Debug.Log("Global bindings");
-        // global bindings
+        Container.Bind<Tracer>().FromInstance(new Tracer(Debug.Log, Debug.LogWarning)).AsSingle().NonLazy();
     }
 }

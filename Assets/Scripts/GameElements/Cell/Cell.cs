@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using UnityEngine;
 using Zenject;
@@ -17,17 +18,18 @@ public sealed class Cell : MonoBehaviour
         CellInformation = cellInformation;
     }
 
-    public void Place(IPlacebleObject item)
+    public bool TryPlace(IPlacebleObject item, Action<Vector3> onSuccess = null)
     {
-        if (CellInformation.TryPlaceItem(item))
+        if (!CellInformation.TryPlaceItem(item))
         {
-            _tracer.TraceDebug($"{item} placed in {CellInformation.Position}");
+            _tracer?.TraceWarning($"{item} cant be placed in {CellInformation.Position}");
+            return false;
         }
-        else
-        {
-            _tracer.TraceWarning($"{item} cant be placed in {CellInformation.Position}");
-        }
+        
+        onSuccess?.Invoke(transform.position);
+        _tracer?.TraceDebug($"{item} placed in {CellInformation.Position}");
 
+        return true;
     }
 
     public Point Position => CellInformation.Position;

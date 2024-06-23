@@ -1,3 +1,4 @@
+using System.Drawing;
 using UnityEngine;
 
 public static class HexagonPositionConverter
@@ -13,4 +14,7 @@ public static class HexagonPositionConverter
         
         return new Vector3(realX, realY, startPosition.z);
     }
+
+    public static Vector3 GetRealPosition(Vector3 startPosition, Point coordinates) =>
+        GetRealPosition(startPosition, coordinates.X, coordinates.Y);
 }
