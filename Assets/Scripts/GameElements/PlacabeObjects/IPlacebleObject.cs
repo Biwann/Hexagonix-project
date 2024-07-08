@@ -11,4 +11,6 @@ public interface IPlacebleObject
     void Place();
 
     void DestroyObject();
+
+    int GetPoints();
 }

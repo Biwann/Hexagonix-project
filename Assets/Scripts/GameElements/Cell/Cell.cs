@@ -30,12 +30,13 @@ public sealed class Cell : MonoBehaviour
         return true;
     }
 
-    public void ClearCell()
+    public int ClearCellAndGetPoints()
     {
         if (!IsEmpty)
         {
-            _cellInformation.DestroyObject();
+            return _cellInformation.DestroyObjectAndGetPoints();
         }
+        return 0;
     }
 
     public Point Position => _cellInformation.Position;

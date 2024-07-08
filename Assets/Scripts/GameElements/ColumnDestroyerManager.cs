@@ -8,10 +8,15 @@ using Zenject.ReflectionBaking.Mono.Cecil;
 public sealed class ColumnDestroyerManager
 {
     [Inject]
-    public void Inject(CellFolder cellFolder, GameEvents gameEvents, Tracer tracer)
+    public void Inject(
+        CellFolder cellFolder, 
+        GameEvents gameEvents, 
+        Tracer tracer,
+        ScoresOnLevel scores)
     {
         _cellFolder = cellFolder;
         _tracer = tracer;
+        _scores = scores;
 
         gameEvents.PlacedOnField += OnPlacedOnField;
     }
@@ -26,6 +31,7 @@ public sealed class ColumnDestroyerManager
         var radius = GameFieldGenerator.Radius;
         var cellsToClear = new List<Cell>();
         var multiplier = 0;
+        var pointsToAdd = 0;
 
         multiplier += MarkForDestroyHorizontal(cellsToClear, radius);
         multiplier += MarkForDestroyVertical(cellsToClear, radius, isFromLeftToRight: true);
@@ -36,13 +42,15 @@ public sealed class ColumnDestroyerManager
             _tracer.TraceDebug($"clearing {cellsToClear.Count}");
             cellsToClear.ForEach(c =>
             {
-                c.ClearCell();
+                pointsToAdd += c.ClearCellAndGetPoints();
             });
         }
 
         if (multiplier > 0)
         {
-            _tracer.TraceDebug($"multiplier is " + multiplier);
+            var resultedPoints = pointsToAdd * multiplier;
+            _tracer.TraceDebug($"points {pointsToAdd} * multiplier {multiplier} = points to add {resultedPoints}" );
+            _scores.AddScore(resultedPoints);
         }
     }
 
@@ -54,7 +62,7 @@ public sealed class ColumnDestroyerManager
             var tempFolder = new List<Cell>();
             var isFindingFirstCell = true;
 
-            for (int x = -radius; x <= radius; x++)
+            for (int x = -radius - 1; x <= radius + 1; x++)
             {
                 // find first coordinate where cell exists
                 if (isFindingFirstCell)
@@ -183,4 +191,5 @@ public sealed class ColumnDestroyerManager
 
     private CellFolder _cellFolder;
     private Tracer _tracer;
+    private ScoresOnLevel _scores;
 }

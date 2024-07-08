@@ -50,6 +50,11 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
         }
     }
 
+    public virtual int GetPoints()
+    {
+        return 40;
+    }
+
     private IEnumerator Disappear()
     {
         var diff = new Vector3(0.01f, 0.01f, 0f);

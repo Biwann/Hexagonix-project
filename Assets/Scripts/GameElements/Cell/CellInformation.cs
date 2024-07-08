@@ -39,10 +39,16 @@ public class CellInformation
         }
     }
 
-    public void DestroyObject()
+    public int DestroyObjectAndGetPoints()
     {
-        Item.DestroyObject();
-        Item = null;
+        if (!IsEmpty)
+        {
+            var points = Item.GetPoints();
+            Item.DestroyObject();
+            Item = null;
+            return points;
+        }
+        return 0;
     }
 
     public bool IsEmpty => _item == null;
