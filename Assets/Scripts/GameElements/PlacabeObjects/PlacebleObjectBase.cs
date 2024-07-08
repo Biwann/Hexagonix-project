@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using Zenject;
@@ -28,13 +29,36 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
 
         var cell = GetCellToPlaceComponent();
 
-        cell.TryPlace(this, 
+        cell.TryPlace(this,
             onSuccess: position =>
         {
             transform.position = new Vector3(position.x, position.y, position.z - 1);
             transform.parent = cell.transform;
             IsPlaced = true;
         });
+    }
+
+    public virtual void DestroyObject()
+    {
+        if (IsPlaced)
+        {
+            // add score or make something like that
+            // also can destroy neubour cells for example
+            DestroyImmediate(gameObject);
+            //StartCoroutine(Disappear());
+            IsPlaced = false;
+        }
+    }
+
+    private IEnumerator Disappear()
+    {
+        var diff = new Vector3(0.01f, 0.01f, 0f);
+        transform.localScale = transform.localScale - diff;
+        if (transform.localScale.x <= 0)
+        {
+            Destroy(gameObject);
+        }
+        yield return new WaitForSeconds(0.01f);
     }
 
     public Point GetLocalPosition() => _localPosition;

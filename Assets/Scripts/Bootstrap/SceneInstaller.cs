@@ -10,5 +10,8 @@ public class SceneInstaller : MonoInstaller
         Container.Bind<FiguresCollection>().AsSingle().NonLazy();
         Container.Bind<FigureProvider>().AsSingle().NonLazy();
         Container.Bind<ColorProvider>().AsSingle().NonLazy();
+        Container.Bind<FiguresManager>().AsSingle().NonLazy();
+        Container.Bind<GameEvents>().AsSingle().NonLazy();
+        Container.Bind<ColumnDestroyerManager>().AsSingle().NonLazy();
     }
 }

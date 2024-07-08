@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cellPrefab: {fileID: 75599304569039318, guid: 9746fd635dc84384db6c254cf980a8fc, type: 3}
   _collider: {fileID: 4180622804384735524, guid: 64b06fe1641fec944bab9328ef9ce8ea, type: 3}
-  _camera: {fileID: 3471398103099825594, guid: e9cb05c06241b0d40a18f9d7e0e90231, type: 3}
+  _camera: {fileID: 0}

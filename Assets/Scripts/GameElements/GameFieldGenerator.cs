@@ -4,20 +4,18 @@ using Zenject;
 
 public class GameFieldGenerator : MonoBehaviour
 {
+    public static int Radius { get; } = 4;
+
     [Inject]
     public void Inject(Tracer tracer, CellFolder cellFolder)
     {
         _tracer = tracer;
         _cellFolder = cellFolder;
-    }
 
-    [SerializeField] private int _radius;
-    [SerializeField] private GameObject _cellPrefab;
-
-    void Start()
-    {
         GenerateField();
     }
+
+    [SerializeField] private GameObject _cellPrefab;
 
     [ContextMenu("Clear Cells")]
     private void ClearChildren()
@@ -30,16 +28,16 @@ public class GameFieldGenerator : MonoBehaviour
 
     private void GenerateField()
     {
-        _tracer.TraceDebug("Starting generate field");
+        _tracer?.TraceDebug("Starting generate field");
         ClearChildren();
         InstanciateCells();
-        _tracer.TraceDebug("Field Generating ended");
+        _tracer?.TraceDebug("Field Generating ended");
     }
 
     [ContextMenu("Intanciate Cells")]
     private void InstanciateCells()
     {
-        int _size = _radius * 2;
+        int _size = Radius * 2;
 
         for (int y = -_size / 2; y <= _size / 2; y++)
         {
@@ -67,8 +65,8 @@ public class GameFieldGenerator : MonoBehaviour
     {
         return !(
             y % 2 == 0
-            ? Mathf.Abs(x) > _radius - Mathf.Abs(y) / 2
-            : x < -(_radius - Mathf.Abs(y) / 2) || x >= _radius - Mathf.Abs(y) / 2);
+            ? Mathf.Abs(x) > Radius - Mathf.Abs(y) / 2
+            : x < -(Radius - Mathf.Abs(y) / 2) || x >= Radius - Mathf.Abs(y) / 2);
     }
 
     private Tracer _tracer;

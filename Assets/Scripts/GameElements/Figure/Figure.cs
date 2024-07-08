@@ -1,85 +1,72 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using Unity.Collections;
 using UnityEngine;
 using Zenject;
 
-public class Figure : MonoBehaviour
+public sealed class Figure : MonoBehaviour
 {
-    [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private GameObject _collider;
-    [SerializeField] Camera _camera;
-
-    public FigureInformation FigureInformation { get; private set; }
+    public event Action FigurePlaced;
 
     [Inject]
-    public void Injector(FigureProvider figures, ColorProvider colorProvider)
+    public void Inject(Tracer tracer)
     {
-        _figureProvider = figures;
-        _colorProvider = colorProvider;
-
-        UpdateFigure();
+        _tracer = tracer;
     }
 
-    public void Init(FigureInformation figureInformation)
+    public void Init(List<PlacebleObjectBase> objectsInFigure)
     {
-        Debug.Log("Init");
-        FigureInformation = figureInformation;
-        CreateFigure();
+        _objectsInFigure = objectsInFigure;
     }
 
-    private void CreateFigure()
+    private void Start()
     {
+        _camera = FindObjectOfType<Camera>();
+        _startPosition = transform.position;
+    }
+
+    public void OnMouseDrag()
+    {
+        SetWorldCoordinatesFromMousePosition();
+    }
+
+    public void OnMouseUp()
+    {
+        Debug.Log("Mouse UP");
+        PlaceObjects();
+        transform.position = _startPosition;
+    }
+
+    private bool CanPlaceObjects()
+        => _objectsInFigure.All(o => o.CanPlace());
+
+    private void PlaceObjects()
+    {
+        if (!CanPlaceObjects())
+        {
+            Debug.Log("CANT PLACE");
+            return;
+        }
+        Debug.Log($"PLACING {_objectsInFigure.Count} objects" );
+        _objectsInFigure.ForEach(o => o.Place());
         _objectsInFigure.Clear();
-        var startPosition = transform.position;
-        var color = _colorProvider.GetRandomColor();
-        List<GameObject> childObjects = new();
-
-        foreach(var figure in FigureInformation.Parts)
-        {
-            var position = HexagonPositionConverter.GetRealPosition(startPosition, figure.Position);
-            var cell = Instantiate(_cellPrefab, position, Quaternion.identity);
-
-            childObjects.Add(cell);
-            cell.transform.localScale = new Vector3(0.9f, 0.9f);
-            cell.name = $"{position.x}, {position.y}";
-            cell.GetComponentInChildren<SpriteRenderer>().material.color = color;
-            
-            var obj = cell.GetComponent<PlacebleObjectBase>();
-            _objectsInFigure.Add(obj);
-        }
-
-        if (_figureHolder == null)
-        {
-            _figureHolder = Instantiate(_collider);
-            _figureHolder.GetComponent<FigureCollider>().FigurePlaced += OnFiguresPlaced;
-            _figureHolder.transform.parent = transform;
-            _figureHolder.name = "Figure Collider";
-        }
-
-        _figureHolder.GetComponent<FigureCollider>().Init(_objectsInFigure);
-        AlignCenterFigures(_figureHolder, childObjects);
-        _figureHolder.transform.position = startPosition;
+        FigurePlaced?.Invoke();
     }
 
-    private void AlignCenterFigures(GameObject parentObject, List<GameObject> childObjects)
+    private void SetWorldCoordinatesFromMousePosition()
     {
-        var count = childObjects.Count;
-        var x = childObjects.Sum(f => f.transform.position.x) / count;
-        var y = childObjects.Sum(f => f.transform.position.y) / count;
+        var mp = Input.mousePosition;
+        var position = _camera.ScreenToWorldPoint(mp);
 
-        parentObject.transform.position = new Vector3(x, y);
-
-        childObjects.ForEach(o => o.transform.parent = parentObject.transform);
+        // _startPosition.z - 5 neccessary to be above all placed objects
+        transform.position = new Vector3(position.x, position.y + 1, _startPosition.z - 5);
     }
 
-    private void OnFiguresPlaced()
-        => UpdateFigure();
-
-    private void UpdateFigure()
-        => Init(_figureProvider.GetNextFigure());
-
+    private Camera _camera;
+    private Vector3 _startPosition;
+    private Tracer _tracer;
+    [SerializeField, ReadOnly]
     private List<PlacebleObjectBase> _objectsInFigure = new();
-    private FigureProvider _figureProvider;
-    private ColorProvider _colorProvider;
-    private GameObject _figureHolder;
 }

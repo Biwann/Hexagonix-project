@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2936987320015732769}
   - component: {fileID: 123263354135841933}
-  - component: {fileID: 7330423821761747618}
+  - component: {fileID: 4047805817935804753}
   m_Layer: 0
-  m_Name: ObjectZone
+  m_Name: Figure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
---- !u!114 &7330423821761747618
+--- !u!114 &4047805817935804753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

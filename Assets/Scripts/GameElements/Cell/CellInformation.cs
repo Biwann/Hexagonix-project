@@ -39,6 +39,12 @@ public class CellInformation
         }
     }
 
+    public void DestroyObject()
+    {
+        Item.DestroyObject();
+        Item = null;
+    }
+
     public bool IsEmpty => _item == null;
 
     public bool EqualTo(CellInformation otherCell)

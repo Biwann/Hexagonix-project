@@ -9,4 +9,6 @@ public interface IPlacebleObject
     bool CanPlace();
 
     void Place();
+
+    void DestroyObject();
 }

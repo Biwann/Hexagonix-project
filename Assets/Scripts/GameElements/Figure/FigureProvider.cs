@@ -25,7 +25,7 @@ public class FigureProvider
         return figure;
     }
 
-    private const int MAX_USED_FIGURES = 3;
+    private const int MAX_USED_FIGURES = 4;
     private readonly FiguresCollection _figureCollection;
     private readonly Queue<FigureInformation> _nearlyUsedFigures = new();
 }

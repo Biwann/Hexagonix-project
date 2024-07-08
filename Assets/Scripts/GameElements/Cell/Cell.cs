@@ -11,30 +11,37 @@ public sealed class Cell : MonoBehaviour
         _tracer = tracer;
     }
 
-    public CellInformation CellInformation { get; private set; }
-
     public void Init(CellInformation cellInformation)
     {
-        CellInformation = cellInformation;
+        _cellInformation = cellInformation;
     }
 
     public bool TryPlace(IPlacebleObject item, Action<Vector3> onSuccess = null)
     {
-        if (!CellInformation.TryPlaceItem(item))
+        if (!_cellInformation.TryPlaceItem(item))
         {
-            _tracer?.TraceWarning($"{item} cant be placed in {CellInformation.Position}");
+            _tracer?.TraceWarning($"{item} cant be placed in {_cellInformation.Position}");
             return false;
         }
         
         onSuccess?.Invoke(transform.position);
-        _tracer?.TraceDebug($"{item} placed in {CellInformation.Position}");
+        _tracer?.TraceDebug($"{item} placed in {_cellInformation.Position}");
 
         return true;
     }
 
-    public Point Position => CellInformation.Position;
+    public void ClearCell()
+    {
+        if (!IsEmpty)
+        {
+            _cellInformation.DestroyObject();
+        }
+    }
 
-    public bool IsEmpty => CellInformation.IsEmpty;
-    
+    public Point Position => _cellInformation.Position;
+
+    public bool IsEmpty => _cellInformation.IsEmpty;
+
+    private CellInformation _cellInformation;
     private Tracer _tracer;
 }
