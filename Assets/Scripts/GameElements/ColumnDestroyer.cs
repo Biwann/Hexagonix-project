@@ -1,34 +1,36 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Unity.VisualScripting;
-using UnityEngine.UIElements;
 using Zenject;
-using Zenject.ReflectionBaking.Mono.Cecil;
 
-public sealed class ColumnDestroyerManager
+public sealed class ColumnDestroyer
 {
+    public event Action ColumnChecked;
+
     [Inject]
     public void Inject(
-        CellFolder cellFolder, 
-        GameEvents gameEvents, 
+        CellFolder cellFolder,
+        HexagonixFieldProvider fieldProvider,
         Tracer tracer,
         ScoresOnLevel scores)
     {
         _cellFolder = cellFolder;
+        _fieldProvider = fieldProvider;
         _tracer = tracer;
         _scores = scores;
 
-        gameEvents.PlacedOnField += OnPlacedOnField;
+        GameEvents.FigurePlaced += OnPlacedOnField;
     }
 
     private void OnPlacedOnField()
     {
         DestroyFilledColumns();
+        ColumnChecked?.Invoke();
     }
 
     private void DestroyFilledColumns()
     {
-        var radius = GameFieldGenerator.Radius;
+        var radius = _fieldProvider.Radius;
         var cellsToClear = new List<Cell>();
         var multiplier = 0;
         var pointsToAdd = 0;
@@ -40,6 +42,7 @@ public sealed class ColumnDestroyerManager
         if (cellsToClear.Count > 0)
         {
             _tracer.TraceDebug($"clearing {cellsToClear.Count}");
+
             cellsToClear.ForEach(c =>
             {
                 pointsToAdd += c.ClearCellAndGetPoints();
@@ -190,6 +193,7 @@ public sealed class ColumnDestroyerManager
     }
 
     private CellFolder _cellFolder;
+    private HexagonixFieldProvider _fieldProvider;
     private Tracer _tracer;
     private ScoresOnLevel _scores;
 }

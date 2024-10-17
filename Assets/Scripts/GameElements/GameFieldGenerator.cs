@@ -4,18 +4,21 @@ using Zenject;
 
 public class GameFieldGenerator : MonoBehaviour
 {
-    public static int Radius { get; } = 4;
+    [SerializeField] private GameObject _cellPrefab;
 
     [Inject]
-    public void Inject(Tracer tracer, CellFolder cellFolder)
+    public void Inject(
+        Tracer tracer, 
+        CellFolder cellFolder,
+        HexagonixFieldProvider fieldProvider)
     {
         _tracer = tracer;
         _cellFolder = cellFolder;
+        _fieldProvider = fieldProvider;
 
         GenerateField();
     }
 
-    [SerializeField] private GameObject _cellPrefab;
 
     [ContextMenu("Clear Cells")]
     private void ClearChildren()
@@ -37,13 +40,13 @@ public class GameFieldGenerator : MonoBehaviour
     [ContextMenu("Intanciate Cells")]
     private void InstanciateCells()
     {
-        int _size = Radius * 2;
+        int _size = _fieldProvider.Radius * 2;
 
         for (int y = -_size / 2; y <= _size / 2; y++)
         {
             for (int x = -_size / 2; x <= _size / 2; x++)
             {
-                if (!IsCoordinateOnField(x, y))
+                if (!_fieldProvider.IsCoordinateOnField(x, y))
                 {
                     continue;
                 }
@@ -61,14 +64,7 @@ public class GameFieldGenerator : MonoBehaviour
         }
     }
 
-    private bool IsCoordinateOnField(int x, int y)
-    {
-        return !(
-            y % 2 == 0
-            ? Mathf.Abs(x) > Radius - Mathf.Abs(y) / 2
-            : x < -(Radius - Mathf.Abs(y) / 2) || x >= Radius - Mathf.Abs(y) / 2);
-    }
-
     private Tracer _tracer;
     private CellFolder _cellFolder;
+    private HexagonixFieldProvider _fieldProvider;
 }

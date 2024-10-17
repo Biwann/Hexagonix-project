@@ -2,9 +2,9 @@ using System.Drawing;
 
 public interface IPlacebleObject
 {
-    Point GetLocalPosition();
+    Point GetLocalFieldPosition();
 
-    void SetPosition(Point position);
+    void SetLocalFieldPosition(Point position);
 
     bool CanPlace();
 

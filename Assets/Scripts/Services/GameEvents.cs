@@ -2,10 +2,29 @@ using System;
 
 public sealed class GameEvents
 {
-    public event Action PlacedOnField;
+    public static event Action FigurePlaced;
+    public static event Action GameEnded;
+    public static event Action LevelChanging;
 
-    public void InvokePlacedOnField()
+    public static void RestartLevel()
     {
-        PlacedOnField?.Invoke();
+        LevelChanging?.Invoke();
+        GlobalProgramEvents.RestartLevel();
+    }
+
+    public static void NavigateOnMainMenu()
+    {
+        LevelChanging?.Invoke();
+        GlobalProgramEvents.NavigateOnMainMenu();
+    }
+
+    public void InvokeFigurePlaced()
+    {
+        FigurePlaced?.Invoke();
+    }
+
+    public void InvokeGameEnd()
+    { 
+        GameEnded?.Invoke();
     }
 }

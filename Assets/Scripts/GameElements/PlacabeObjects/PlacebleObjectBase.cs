@@ -1,17 +1,10 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
 using System.Drawing;
 using System.Linq;
 using UnityEngine;
-using Zenject;
 
 public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
 {
-    [Inject]
-    public void Init(Tracer tracer)
-    {
-        _tracer = tracer;
-    }
-
     public bool IsPlaced { get; private set; } = false;
 
     public bool CanPlace()
@@ -22,9 +15,11 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
 
     public void Place()
     {
+        transform.DOComplete();
         if (!CanPlace())
         {
-            _tracer?.TraceWarning($"Cant see cell on {_localPosition}");
+            Debug.Log($"Cant see cell on {_fieldPosition}");
+            return;
         }
 
         var cell = GetCellToPlaceComponent();
@@ -32,43 +27,40 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
         cell.TryPlace(this,
             onSuccess: position =>
         {
-            transform.position = new Vector3(position.x, position.y, position.z - 1);
+            transform.DOMove(
+                endValue: new Vector3(position.x, position.y, position.z - 1),
+                duration: 0.5f);
+            transform.DOShakeScale(
+                duration: 0.5f,
+                strength: 0.1f,
+                vibrato: 5);
             transform.parent = cell.transform;
             IsPlaced = true;
         });
     }
 
-    public virtual void DestroyObject()
+    public void DestroyObject()
     {
         if (IsPlaced)
         {
             // add score or make something like that
             // also can destroy neubour cells for example
-            DestroyImmediate(gameObject);
-            //StartCoroutine(Disappear());
+            DestroyObjectImpl();
+
             IsPlaced = false;
         }
     }
 
-    public virtual int GetPoints()
+    public abstract int GetPoints();
+
+    public Point GetLocalFieldPosition() => _fieldPosition;
+
+    public void SetLocalFieldPosition(Point position) => _fieldPosition = position;
+
+    protected virtual void DestroyObjectImpl()
     {
-        return 40;
+        DestroyImmediate(gameObject);
     }
-
-    private IEnumerator Disappear()
-    {
-        var diff = new Vector3(0.01f, 0.01f, 0f);
-        transform.localScale = transform.localScale - diff;
-        if (transform.localScale.x <= 0)
-        {
-            Destroy(gameObject);
-        }
-        yield return new WaitForSeconds(0.01f);
-    }
-
-    public Point GetLocalPosition() => _localPosition;
-
-    public void SetPosition(Point position) => _localPosition = position;
 
     private Cell GetCellToPlaceComponent()
     {
@@ -80,6 +72,5 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
         return cell;
     }
 
-    private Point _localPosition;
-    private Tracer _tracer;
+    private Point _fieldPosition;
 }

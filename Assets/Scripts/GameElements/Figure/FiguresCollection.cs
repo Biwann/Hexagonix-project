@@ -5,11 +5,39 @@ public sealed class FiguresCollection
 {
     public FiguresCollection()
     {
-        // 2 cells
+        // doubles neccesery to make figures appear more often
+
+        InitFiguresWith1Cell();
+        InitFiguresWith1Cell();
+
+        InitFiguresWith2Cells();
+        InitFiguresWith2Cells();
+
+        InitFiguresWith3Cells();
+        InitFiguresWith3Cells();
+
+        InitFiguresWith4Cells();
+        InitFiguresWith4Cells();
+
+        InitFiguresWith5Cells();
+    }
+
+    public IEnumerable<FigureInformation> GetAllFigures() => _figures;
+
+    private void InitFiguresWith1Cell()
+    {
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 0))
+        }));
+    }
+
+    private void InitFiguresWith2Cells()
+    {
         _figures.Add(new FigureInformation(new List<CellInformation>
         {
             new CellInformation(new Point(0, 0)),
-            new CellInformation(new Point(-1, 0)),
+            new CellInformation(new Point(1, 0)),
         }));
 
         _figures.Add(new FigureInformation(new List<CellInformation>
@@ -23,23 +51,84 @@ public sealed class FiguresCollection
             new CellInformation(new Point(0, 0)),
             new CellInformation(new Point(0, 1)),
         }));
+    }
 
-        // 3 cells
+    private void InitFiguresWith3Cells()
+    {
         _figures.Add(new FigureInformation(new List<CellInformation>
         {
-            new CellInformation(new Point(0, 0)),
-            new CellInformation(new Point(0, 1)),
             new CellInformation(new Point(-1, 1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
         }));
 
         _figures.Add(new FigureInformation(new List<CellInformation>
         {
+            new CellInformation(new Point(-1, 0)),
             new CellInformation(new Point(0, 0)),
             new CellInformation(new Point(0, 1)),
-            new CellInformation(new Point(-1, 0)),
         }));
 
-        // 4 cells
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, -1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, -1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, 1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(-1, -1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, 1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, -1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, -1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, 1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, 0)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, 1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, -1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, 1)),
+        }));
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(-1, -1)),
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(0, -1)),
+        }));
+
+    }
+
+    private void InitFiguresWith4Cells()
+    {
         _figures.Add(new FigureInformation(new List<CellInformation>
         {
             new CellInformation(new Point(0, 0)),
@@ -47,8 +136,30 @@ public sealed class FiguresCollection
             new CellInformation(new Point(-1, 1)),
             new CellInformation(new Point(0, 2)),
         }));
+    }
 
-        // 5 cells
+    private void InitFiguresWith5Cells()
+    {
+        /* angle figure
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
+            new CellInformation(new Point(2, 0)),
+            new CellInformation(new Point(1, 1)),
+            new CellInformation(new Point(1, 2)),
+        }));
+        */
+
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
+            new CellInformation(new Point(0, 1)),
+            new CellInformation(new Point(0, 2)),
+            new CellInformation(new Point(1, 2)),
+        }));
+
         _figures.Add(new FigureInformation(new List<CellInformation>
         {
             new CellInformation(new Point(0, 0)),
@@ -63,16 +174,28 @@ public sealed class FiguresCollection
             new CellInformation(new Point(0, 0)),
             new CellInformation(new Point(1, 0)),
             new CellInformation(new Point(2, 0)),
-            new CellInformation(new Point(1, 1)),
-            new CellInformation(new Point(1, 2)),
+            new CellInformation(new Point(-1, -1)),
+            new CellInformation(new Point(-1, -2)),
         }));
 
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
+            new CellInformation(new Point(2, 0)),
+            new CellInformation(new Point(2, 1)),
+            new CellInformation(new Point(3, 2)),
+        }));
 
-
-        
+        _figures.Add(new FigureInformation(new List<CellInformation>
+        {
+            new CellInformation(new Point(0, 0)),
+            new CellInformation(new Point(1, 0)),
+            new CellInformation(new Point(2, 0)),
+            new CellInformation(new Point(2, -1)),
+            new CellInformation(new Point(3, -2)),
+        }));
     }
-
-    public IEnumerable<FigureInformation> GetAllFigures() => _figures;
 
     private List<FigureInformation> _figures = new();
 }
