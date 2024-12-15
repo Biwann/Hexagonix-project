@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class CellInformation
@@ -49,6 +50,14 @@ public class CellInformation
             return points;
         }
         return 0;
+    }
+
+    public GameObject GetPlacedGameObject()
+    {
+        if (IsEmpty)
+            return null;
+
+        return Item.GetGameObject();
     }
 
     public bool IsEmpty => _item == null;

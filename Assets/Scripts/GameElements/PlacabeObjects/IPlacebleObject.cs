@@ -1,4 +1,5 @@
 using System.Drawing;
+using UnityEngine;
 
 public interface IPlacebleObject
 {
@@ -13,4 +14,6 @@ public interface IPlacebleObject
     void DestroyObject();
 
     int GetPoints();
+
+    GameObject GetGameObject();
 }

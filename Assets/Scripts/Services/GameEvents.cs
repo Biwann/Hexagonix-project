@@ -3,6 +3,7 @@ using System;
 public sealed class GameEvents
 {
     public static event Action FigurePlaced;
+    public static event Action NoMovesLeft;
     public static event Action GameEnded;
     public static event Action LevelChanging;
 
@@ -21,6 +22,11 @@ public sealed class GameEvents
     public void InvokeFigurePlaced()
     {
         FigurePlaced?.Invoke();
+    }
+    
+    public void InvokeNoMovesLeft()
+    {
+        NoMovesLeft?.Invoke();
     }
 
     public void InvokeGameEnd()

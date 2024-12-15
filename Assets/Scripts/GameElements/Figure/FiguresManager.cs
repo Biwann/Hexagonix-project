@@ -67,7 +67,7 @@ public sealed class FiguresManager
     {
         if (_figureCreators.All(f => !f.HasFigure || !f.CanPlaceFigure()))
         {
-            _gameEvents.InvokeGameEnd();
+            _gameEvents.InvokeNoMovesLeft();
         }
     }
 

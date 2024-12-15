@@ -43,8 +43,6 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
     {
         if (IsPlaced)
         {
-            // add score or make something like that
-            // also can destroy neubour cells for example
             DestroyObjectImpl();
 
             IsPlaced = false;
@@ -56,6 +54,9 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
     public Point GetLocalFieldPosition() => _fieldPosition;
 
     public void SetLocalFieldPosition(Point position) => _fieldPosition = position;
+
+    public GameObject GetGameObject()
+        => gameObject;
 
     protected virtual void DestroyObjectImpl()
     {

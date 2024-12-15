@@ -43,6 +43,8 @@ public sealed class Cell : MonoBehaviour
 
     public bool IsEmpty => _cellInformation.IsEmpty;
 
+    public GameObject GetPlacedGameObject() => _cellInformation.GetPlacedGameObject();
+
     private CellInformation _cellInformation;
     private Tracer _tracer;
 }

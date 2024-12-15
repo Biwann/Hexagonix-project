@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public sealed class Figure : MonoBehaviour
@@ -52,16 +53,15 @@ public sealed class Figure : MonoBehaviour
         Debug.Log("Mouse UP");
         var placed = PlaceObjects();
 
-        if (!placed)
+        if (placed)
         {
-            AlignFiguresInCenter(NORMAL_WAITING_SCALE);
+            transform.position = _startPosition;
         }
         else
         {
-            transform.DOComplete();
+            AlignFiguresInCenter(NORMAL_WAITING_SCALE);
+            transform.DOMove(_startPosition, duration: 0.1f);
         }
-
-        transform.DOMove(_startPosition, duration: 0.4f);
     }
 
     private bool CanPlaceObjects()
@@ -129,6 +129,7 @@ public sealed class Figure : MonoBehaviour
             var objRealPositionX = objPosition.x - deltaX;
             var objRealPositionY = objPosition.y - deltaY;
 
+            obj.transform.DOComplete();
             obj.transform.DOScale(new Vector3(scale - DELTA_SCALE, scale - DELTA_SCALE), 0.2f);
             obj.transform.DOLocalMove(
                 new Vector3(objRealPositionX, objRealPositionY, objPosition.z),
