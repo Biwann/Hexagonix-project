@@ -16,6 +16,12 @@ public sealed class Cell : MonoBehaviour
         _cellInformation = cellInformation;
     }
 
+    public void ChangeColor(UnityEngine.Color color)
+        => GetSpriteRenderer().material.color = color;
+
+    public UnityEngine.Color GetColor()
+        => GetSpriteRenderer().material.color;
+
     public bool TryPlace(IPlacebleObject item, Action<Vector3> onSuccess = null)
     {
         if (!_cellInformation.TryPlaceItem(item))
@@ -39,6 +45,9 @@ public sealed class Cell : MonoBehaviour
         return 0;
     }
 
+    private SpriteRenderer GetSpriteRenderer()
+        => _cachedSpriteRenderer ??= gameObject.GetComponentInChildren<SpriteRenderer>();
+
     public Point Position => _cellInformation.Position;
 
     public bool IsEmpty => _cellInformation.IsEmpty;
@@ -47,4 +56,5 @@ public sealed class Cell : MonoBehaviour
 
     private CellInformation _cellInformation;
     private Tracer _tracer;
+    private SpriteRenderer _cachedSpriteRenderer;
 }

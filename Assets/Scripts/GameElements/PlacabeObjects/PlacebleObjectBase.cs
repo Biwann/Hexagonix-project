@@ -39,13 +39,22 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
         });
     }
 
+    public Cell GetCellToPlaceComponent()
+    {
+        Debug.Log($"{gameObject.name}: position ({transform.position.x}, {transform.position.y})");
+        var pos = new Vector2(transform.position.x, transform.position.y);
+        var cells = Physics2D.RaycastAll(pos, Vector2.up, 0.01f);
+        var cell = cells.Select(o => o.collider?.gameObject.GetComponent<Cell>()).FirstOrDefault(a => a != null);
+
+        return cell;
+    }
+
     public void DestroyObject()
     {
         if (IsPlaced)
         {
-            DestroyObjectImpl();
-
             IsPlaced = false;
+            DestroyObjectImpl();
         }
     }
 
@@ -61,16 +70,6 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
     protected virtual void DestroyObjectImpl()
     {
         DestroyImmediate(gameObject);
-    }
-
-    private Cell GetCellToPlaceComponent()
-    {
-        Debug.Log($"{gameObject.name}: position ({transform.position.x}, {transform.position.y})");
-        var pos = new Vector2(transform.position.x, transform.position.y);
-        var cells = Physics2D.RaycastAll(pos, Vector2.up, 0.01f);
-        var cell =  cells.Select(o => o.collider?.gameObject.GetComponent<Cell>()).FirstOrDefault(a => a != null);
-
-        return cell;
     }
 
     private Point _fieldPosition;

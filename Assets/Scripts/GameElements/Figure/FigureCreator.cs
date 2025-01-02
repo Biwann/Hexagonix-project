@@ -73,7 +73,7 @@ public class FigureCreator : MonoBehaviour
 
         _figureHolder ??= CreateFigureHolder();
         childObjects.ForEach(o => o.transform.parent = _figureHolder.transform);
-        _figureHolder.GetComponent<Figure>().Init(_objectsInFigure);
+        _figureHolder.GetComponent<Figure>().Init(_objectsInFigure, color);
 
         HasFigure = true;
     }

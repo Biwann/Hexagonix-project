@@ -1,9 +1,11 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public sealed class Figure : MonoBehaviour
 {
@@ -18,38 +20,43 @@ public sealed class Figure : MonoBehaviour
         _score = score;
     }
 
-    public void Init(List<PlacebleObjectBase> objectsInFigure)
+    public void Init(
+        List<PlacebleObjectBase> objectsInFigure,
+        Color currentColor)
     {
         ObjectsInFigure = objectsInFigure;
+        _currentColor = currentColor;
 
         AlignFiguresInCenter(NORMAL_WAITING_SCALE);
         ObjectsInFigure.ForEach(o => o.transform.DOComplete());
     }
 
-    public void Start()
+    private void Start()
     {
         _camera = FindObjectOfType<Camera>();
         _startPosition = transform.position;
     }
 
-    public void OnMouseDown()
+    private void OnMouseDown()
     {
         if (!CanInteract) return;
 
         AlignFiguresInCenter(NORMAL_SCALE);
+        StartTrackingCanPlaceCell();
     }
 
-    public void OnMouseDrag()
+    private void OnMouseDrag()
     {
         if (!CanInteract) return;
 
         SetWorldCoordinatesFromMousePosition();
     }
 
-    public void OnMouseUp()
+    private void OnMouseUp()
     {
         if (!CanInteract) return;
 
+        StopTrackingCanPlaceCell();
         Debug.Log("Mouse UP");
         var placed = PlaceObjects();
 
@@ -62,6 +69,17 @@ public sealed class Figure : MonoBehaviour
             AlignFiguresInCenter(NORMAL_WAITING_SCALE);
             transform.DOMove(_startPosition, duration: 0.1f);
         }
+    }
+
+    private void StartTrackingCanPlaceCell()
+    {
+        _cellTracker = StartCoroutine(TrackCanPlaceCell());
+    }
+
+    private void StopTrackingCanPlaceCell()
+    {
+        StopCoroutine(_cellTracker);
+        ReturnColorAndClearCachedCells();
     }
 
     private bool CanPlaceObjects()
@@ -137,6 +155,43 @@ public sealed class Figure : MonoBehaviour
         }
     }
 
+    private IEnumerator TrackCanPlaceCell()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(0.05f);
+        
+            if (!CanPlaceObjects())
+            {
+                ReturnColorAndClearCachedCells();
+                continue;
+            }
+
+            List<Cell> currentCells = new();
+            ObjectsInFigure.ForEach(p => currentCells.Add(p.GetCellToPlaceComponent()));
+
+            if (!currentCells.SequenceEqual(_savedTrackedCellsWithColor.Select(c => c.Cell)))
+            {
+                ReturnColorAndClearCachedCells();
+                currentCells.ForEach(c =>
+                {
+                    _savedTrackedCellsWithColor.Add((c, c.GetColor()));
+                    c.ChangeColor(_currentColor);
+                });
+            }
+        }
+    }
+
+    private void ReturnColorAndClearCachedCells()
+    {
+        foreach (var (cell, color) in _savedTrackedCellsWithColor)
+        {
+            cell.ChangeColor(color);
+        }
+
+        _savedTrackedCellsWithColor.Clear();
+    }
+
     private const float NORMAL_SCALE = 1f;
     private const float NORMAL_WAITING_SCALE = 0.75f;
     private const float DELTA_SCALE = 0.1f;
@@ -144,4 +199,7 @@ public sealed class Figure : MonoBehaviour
     private Camera _camera;
     private Vector3 _startPosition;
     private ScoresOnLevel _score;
+    private Color _currentColor;
+    private List<(Cell Cell, Color Color)> _savedTrackedCellsWithColor = new();
+    private Coroutine _cellTracker;
 }
