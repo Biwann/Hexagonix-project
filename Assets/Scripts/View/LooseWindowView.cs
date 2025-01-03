@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -28,7 +26,7 @@ public class LooseWindowView : MonoBehaviour
     private void OnGameEnd()
     {
         gameObject.SetActive(true);
-        _scoreText.text = _scoresOnLevel.Score.ToString();
+        _scoreText.text = NumberToSpritesConverter.Convert(_scoresOnLevel.Score);
     }
 
     private void OnRestarting()

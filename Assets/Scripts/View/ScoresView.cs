@@ -9,7 +9,7 @@ public sealed class ScoresView : MonoBehaviour
 
     private void Awake()
     {
-        _text.text = 0.ToString();
+        UpdateText(0);
     }
 
     [Inject]
@@ -20,25 +20,17 @@ public sealed class ScoresView : MonoBehaviour
         _scoresOnLevel.ScoreChanged += UpdateText;
         UpdateText(scores.Score);
 
-        GameEvents.GameEnded += OnGameEnd;
         GameEvents.LevelChanging += OnLevelChanging;
     }
 
     private void OnLevelChanging()
     {
         _scoresOnLevel.ScoreChanged -= UpdateText;
-        GameEvents.GameEnded -= OnGameEnd;
         GameEvents.LevelChanging -= OnLevelChanging;
     }
-
-    private void OnGameEnd()
-    {
-        gameObject.SetActive(false);
-    }
-
     private void UpdateText(int score)
     {
-        _text.text = score.ToString();
+        _text.text = NumberToSpritesConverter.Convert(score);
     }
 
     private ScoresOnLevel _scoresOnLevel;

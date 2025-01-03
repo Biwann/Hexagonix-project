@@ -27,7 +27,7 @@ public class ScoresRecordView : MonoBehaviour
 
     private void UpdateText(int score)
     {
-        _text.text = score.ToString();
+        _text.text = NumberToSpritesConverter.Convert(score);
     }
 
     private IScoresRecord _scoresRecord;
