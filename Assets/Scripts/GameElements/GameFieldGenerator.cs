@@ -4,17 +4,18 @@ using Zenject;
 
 public class GameFieldGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject _cellPrefab;
-
     [Inject]
     public void Inject(
         Tracer tracer, 
         CellFolder cellFolder,
-        HexagonixFieldProvider fieldProvider)
+        HexagonixFieldProvider fieldProvider,
+        PrefabLoader prefabLoader   )
     {
         _tracer = tracer;
         _cellFolder = cellFolder;
         _fieldProvider = fieldProvider;
+
+        _cellPrefab = prefabLoader.Cell;
 
         GenerateField();
     }
@@ -67,4 +68,5 @@ public class GameFieldGenerator : MonoBehaviour
     private Tracer _tracer;
     private CellFolder _cellFolder;
     private HexagonixFieldProvider _fieldProvider;
+    private GameObject _cellPrefab;
 }

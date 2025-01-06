@@ -12,8 +12,11 @@ public class SceneInstaller : MonoInstaller
         BindSingle<ColumnDestroyer>();
         BindSingle<FigureProvider>();
         BindSingle<FiguresManager>();
+
         BindSingle<ScoresOnLevel>();
         BindSingle<RecordChecker>();
+        BindSingle<AddExpirienceOnScoreTracker>();
+
         BindSingle<NoMovesLeft>();
 
         Container.Bind<UnityObjectLifeController>()

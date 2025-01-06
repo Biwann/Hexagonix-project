@@ -54,9 +54,10 @@ public sealed class Figure : MonoBehaviour
 
     private void OnMouseUp()
     {
+        StopTrackingCanPlaceCell();
+
         if (!CanInteract) return;
 
-        StopTrackingCanPlaceCell();
         Debug.Log("Mouse UP");
         var placed = PlaceObjects();
 
@@ -78,8 +79,12 @@ public sealed class Figure : MonoBehaviour
 
     private void StopTrackingCanPlaceCell()
     {
-        StopCoroutine(_cellTracker);
-        ReturnColorAndClearCachedCells();
+        if (_cellTracker is not null)
+        {
+            StopCoroutine(_cellTracker);
+            _cellTracker = null;
+            ReturnColorAndClearCachedCells();
+        }
     }
 
     private bool CanPlaceObjects()

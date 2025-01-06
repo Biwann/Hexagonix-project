@@ -3,9 +3,7 @@ using UnityEngine;
 using Zenject;
 
 public class FigureCreator : MonoBehaviour
-{
-    [SerializeField] private GameObject _cellPrefab;
-    [SerializeField] private GameObject _collider;
+{ 
     [SerializeField] private GameObject _figureBlockerView;
 
     public FigureInformation FigureInformation { get; private set; }
@@ -19,7 +17,8 @@ public class FigureCreator : MonoBehaviour
         GameEvents gameEvents,
         FiguresManager figuresManager,
         Tracer tracer,
-        ScoresOnLevel score)
+        ScoresOnLevel score,
+        PrefabLoader prefabLoader)
     {
         _figureHolder = null;
         _figureProvider = figures;
@@ -27,6 +26,9 @@ public class FigureCreator : MonoBehaviour
         _gameEvents = gameEvents;
         _tracer = tracer;
         _score = score;
+
+        _cellPrefab = prefabLoader.DefaultHexagon;
+        _collider = prefabLoader.Figure;
 
         figuresManager.AddFigure(this);
         figuresManager.ActivateFigures += OnFigureActivate;
@@ -141,4 +143,6 @@ public class FigureCreator : MonoBehaviour
     private Tracer _tracer;
     private ScoresOnLevel _score;
     private bool _canPlaceFigure;
+    private GameObject _cellPrefab;
+    private GameObject _collider;
 }

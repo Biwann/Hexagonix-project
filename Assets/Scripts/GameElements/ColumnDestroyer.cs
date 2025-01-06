@@ -18,13 +18,16 @@ public sealed class ColumnDestroyer
         HexagonixFieldProvider fieldProvider,
         Tracer tracer,
         ScoresOnLevel scores,
-        UnityObjectLifeController objectController)
+        UnityObjectLifeController objectController,
+        PrefabLoader prefabLoader)
     {
         _cellFolder = cellFolder;
         _fieldProvider = fieldProvider;
         _tracer = tracer;
         _scores = scores;
         _objectController = objectController;
+
+        _addedTextPrefab = prefabLoader.AddedScoreText;
 
         GameEvents.FigurePlaced += OnPlacedOnField;
     }
@@ -60,6 +63,7 @@ public sealed class ColumnDestroyer
         {
             var resultedPoints = pointsToAdd * multiplier;
             _tracer.TraceDebug($"points {pointsToAdd} * multiplier {multiplier} = points to add {resultedPoints}" );
+            
             _scores.AddScore(resultedPoints);
 
             var xPosition = cellsToClear.Average(c => c.transform.position.x);
@@ -241,5 +245,5 @@ public sealed class ColumnDestroyer
     private Tracer _tracer;
     private ScoresOnLevel _scores;
     private UnityObjectLifeController _objectController;
-    private GameObject _addedTextPrefab = Resources.Load<GameObject>(@"LoadPrefabs/AddedScoreText");
+    private GameObject _addedTextPrefab;
 }

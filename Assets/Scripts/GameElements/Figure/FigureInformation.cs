@@ -38,5 +38,5 @@ public class FigureInformation
         return true;
     }
 
-    private List<CellInformation > _parts;
+    private List<CellInformation> _parts;
 }
