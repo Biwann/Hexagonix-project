@@ -32,6 +32,9 @@ public class GlobalProjectInstaller : MonoInstaller
 
     private void BindExpirienceSystem()
     {
+        BindSingle<ExpirienceLocal>();
+        BindSingle<ExpirienceLevelProvider>();
+        BindSingle<ExpirienceChecker>();
 
         Container.Bind<IExpirienceSaver>()
 #if UNITY_EDITOR
@@ -40,15 +43,20 @@ public class GlobalProjectInstaller : MonoInstaller
             .To<ExpirienceSaverDefault>()
 #endif
             .AsSingle().NonLazy();
-
-        BindSingle<ExpirienceLocal>();
-        BindSingle<ExpirienceLevelProvider>();
-        BindSingle<ExpirienceChecker>();
     }
 
     private void BindCoinsSystem()
     {
+        BindSingle<CoinsLocal>();
+        BindSingle<CoinsChecker>();
 
+        Container.Bind<ICoinsSaver>()
+#if UNITY_EDITOR
+            .To<CoinsSaverDefault>()
+#else
+            .To<CoinsSaverDefault>()
+#endif
+            .AsSingle().NonLazy();
     }
 
     private void BindSingle<T>()

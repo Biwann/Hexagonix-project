@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-public sealed class DefaultHexagon : PlacebleObjectBase
+public class DefaultHexagon : PlacebleObjectBase
 {
     public override int GetPoints()
         => 10;

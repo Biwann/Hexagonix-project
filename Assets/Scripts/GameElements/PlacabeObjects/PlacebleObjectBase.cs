@@ -7,7 +7,7 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
 {
     public bool IsPlaced { get; private set; } = false;
 
-    public bool CanPlace()
+    public virtual bool CanPlace()
     {
         var cell = GetCellToPlaceComponent();
         return cell != null && cell.IsEmpty;

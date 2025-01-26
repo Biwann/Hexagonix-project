@@ -18,7 +18,8 @@ public class FigureCreator : MonoBehaviour
         FiguresManager figuresManager,
         Tracer tracer,
         ScoresOnLevel score,
-        PrefabLoader prefabLoader)
+        PrefabLoader prefabLoader,
+        CoinsLocal coinsLocal)
     {
         _figureHolder = null;
         _figureProvider = figures;
@@ -27,8 +28,9 @@ public class FigureCreator : MonoBehaviour
         _tracer = tracer;
         _score = score;
 
-        _cellPrefab = prefabLoader.DefaultHexagon;
+        _cellPrefab = prefabLoader.HexagonWithCoin;
         _collider = prefabLoader.Figure;
+        _coinsLocal = coinsLocal;
 
         figuresManager.AddFigure(this);
         figuresManager.ActivateFigures += OnFigureActivate;
@@ -68,6 +70,9 @@ public class FigureCreator : MonoBehaviour
             childObjects.Add(cell);
 
             var obj = cell.GetComponent<PlacebleObjectBase>();
+            // delete
+            var coins = (HexagonWithCoin)obj;
+            coins.Init(_coinsLocal);
             obj.SetLocalFieldPosition(figure.Position);
 
             _objectsInFigure.Add(obj);
@@ -145,4 +150,5 @@ public class FigureCreator : MonoBehaviour
     private bool _canPlaceFigure;
     private GameObject _cellPrefab;
     private GameObject _collider;
+    private CoinsLocal _coinsLocal;
 }

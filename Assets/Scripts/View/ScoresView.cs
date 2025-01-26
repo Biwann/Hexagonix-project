@@ -7,11 +7,6 @@ public sealed class ScoresView : MonoBehaviour
     [SerializeField]
     private TMP_Text _text;
 
-    private void Awake()
-    {
-        UpdateText(0);
-    }
-
     [Inject]
     public void Init(ScoresOnLevel scores)
     {
@@ -28,6 +23,7 @@ public sealed class ScoresView : MonoBehaviour
         _scoresOnLevel.ScoreChanged -= UpdateText;
         GameEvents.LevelChanging -= OnLevelChanging;
     }
+
     private void UpdateText(int score)
     {
         _text.text = NumberToSpritesConverter.Convert(score);
