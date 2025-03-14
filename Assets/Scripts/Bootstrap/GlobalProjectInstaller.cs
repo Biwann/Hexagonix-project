@@ -15,6 +15,8 @@ public class GlobalProjectInstaller : MonoInstaller
         BindScoreSystem();
         BindExpirienceSystem();
         BindCoinsSystem();
+
+        BindCoinsUpgrade();
     }
 
     private void BindScoreSystem()
@@ -57,6 +59,23 @@ public class GlobalProjectInstaller : MonoInstaller
             .To<CoinsSaverDefault>()
 #endif
             .AsSingle().NonLazy();
+    }
+
+    private void BindCoinsUpgrade()
+    {
+        Container.Bind<ICoinsUpgradeSaver>()
+#if UNITY_EDITOR
+            .To<CoinsUpgradeSaverDefault>()
+#else
+            // TODO: make product realization
+            .To<CoinsUpgradeSaverDefault>()
+#endif
+            .AsSingle().NonLazy();
+
+        BindSingle<CoinsUpgradeConfig>();
+        BindSingle<CoinsUpgradeInformationLocal>();
+        BindSingle<CoinsUpgradeChecker>();
+        BindSingle<CoinsUpgradeCharacteristicProvider>();
     }
 
     private void BindSingle<T>()

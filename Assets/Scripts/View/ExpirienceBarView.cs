@@ -7,7 +7,9 @@ public sealed class ExpirienceBarView : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
     [SerializeField] private TMP_Text _currentLevelText;
+    [SerializeField] private TMP_Text _currentLevelTextBehind;
     [SerializeField] private TMP_Text _nextLevelText;
+    [SerializeField] private TMP_Text _nextLevelTextBehind;
 
     [Inject]
     public void Inject(
@@ -39,8 +41,10 @@ public sealed class ExpirienceBarView : MonoBehaviour
 
     private void UpdateLevelText(int currentLevel)
     {
-        _currentLevelText.text = NumberToSpritesConverter.Convert(currentLevel);
-        _nextLevelText.text = NumberToSpritesConverter.Convert(currentLevel + 1);
+        _currentLevelText.text = currentLevel.ToString();
+        _currentLevelTextBehind.text = currentLevel.ToString();
+        _nextLevelText.text = (currentLevel + 1).ToString();
+        _nextLevelTextBehind.text = (currentLevel + 1).ToString();
     }
 
     private void UpdateSlider(LevelInformation newLevelInformation)

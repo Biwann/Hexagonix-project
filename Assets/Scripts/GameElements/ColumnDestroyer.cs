@@ -224,7 +224,7 @@ public sealed class ColumnDestroyer
     {
         var textObject = CreateAddedScoreText(position);
         var text = textObject.GetComponent<TextMeshPro>();
-        text.text = NumberToSpritesConverter.Convert(addedScore);
+        text.text = addedScore.ToString();
 
         var calculatedScale = 0.5f + (addedScore / 1000);
         textObject.transform.localScale = new Vector3(calculatedScale, calculatedScale, 1);

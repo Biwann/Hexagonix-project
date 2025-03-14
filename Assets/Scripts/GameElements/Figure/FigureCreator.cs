@@ -16,21 +16,20 @@ public class FigureCreator : MonoBehaviour
         ColorProvider colorProvider,
         GameEvents gameEvents,
         FiguresManager figuresManager,
+        PlacebleObjectsProvider placebleObjectsProvider,
         Tracer tracer,
         ScoresOnLevel score,
-        PrefabLoader prefabLoader,
-        CoinsLocal coinsLocal)
+        PrefabLoader prefabLoader)
     {
         _figureHolder = null;
         _figureProvider = figures;
         _colorProvider = colorProvider;
         _gameEvents = gameEvents;
+        _placebleObjectsProvider = placebleObjectsProvider;
         _tracer = tracer;
         _score = score;
 
-        _cellPrefab = prefabLoader.HexagonWithCoin;
         _collider = prefabLoader.Figure;
-        _coinsLocal = coinsLocal;
 
         figuresManager.AddFigure(this);
         figuresManager.ActivateFigures += OnFigureActivate;
@@ -65,17 +64,14 @@ public class FigureCreator : MonoBehaviour
 
         foreach(var figure in FigureInformation.Parts)
         {
-            var cell = InstansiateDefaultFigurePart(color);
-            cell.name = $"{figure.Position.X}, {figure.Position.Y}";
-            childObjects.Add(cell);
+            var part = InstansiateFigurePart(color);
+            part.name = $"{figure.Position.X}, {figure.Position.Y}";
+            childObjects.Add(part);
 
-            var obj = cell.GetComponent<PlacebleObjectBase>();
-            // delete
-            var coins = (HexagonWithCoin)obj;
-            coins.Init(_coinsLocal);
-            obj.SetLocalFieldPosition(figure.Position);
+            var placableObject = part.GetComponent<PlacebleObjectBase>();
+            placableObject.SetLocalFieldPosition(figure.Position);
 
-            _objectsInFigure.Add(obj);
+            _objectsInFigure.Add(placableObject);
         }
 
         _figureHolder ??= CreateFigureHolder();
@@ -133,22 +129,25 @@ public class FigureCreator : MonoBehaviour
         return holder;
     }
 
-    private GameObject InstansiateDefaultFigurePart(UnityEngine.Color color)
+    private GameObject InstansiateFigurePart(UnityEngine.Color color)
     {
-        var cell = Instantiate(_cellPrefab, transform.position, Quaternion.identity);
-        cell.GetComponentInChildren<SpriteRenderer>().material.color = color;
-        return cell;
+        var pos = transform.position;
+        var part = _placebleObjectsProvider.GetRandomPlacableObject();
+
+        part.transform.position = new Vector3(pos.x, pos.y, pos.z);
+        part.GetComponentInChildren<SpriteRenderer>().material.color = color;
+
+        return part;
     }
 
+    private bool _canPlaceFigure;
     private List<PlacebleObjectBase> _objectsInFigure = new();
     private FigureProvider _figureProvider;
     private ColorProvider _colorProvider;
     private GameObject _figureHolder;
     private GameEvents _gameEvents;
+    private PlacebleObjectsProvider _placebleObjectsProvider;
     private Tracer _tracer;
     private ScoresOnLevel _score;
-    private bool _canPlaceFigure;
-    private GameObject _cellPrefab;
     private GameObject _collider;
-    private CoinsLocal _coinsLocal;
 }
