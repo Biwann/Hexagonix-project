@@ -18,21 +18,18 @@ public sealed class ColumnDestroyer
         HexagonixFieldProvider fieldProvider,
         Tracer tracer,
         ScoresOnLevel scores,
-        UnityObjectLifeController objectController,
-        PrefabLoader prefabLoader)
+        TextAnimation textAnimation)
     {
         _cellFolder = cellFolder;
         _fieldProvider = fieldProvider;
         _tracer = tracer;
         _scores = scores;
-        _objectController = objectController;
+        _textAnimation = textAnimation;
 
-        _addedTextPrefab = prefabLoader.AddedScoreText;
-
-        GameEvents.FigurePlaced += OnPlacedOnField;
+        GameEvents.GameFieldChanged += OnFieldChanged;
     }
 
-    private void OnPlacedOnField()
+    private void OnFieldChanged()
     {
         DestroyFilledColumns();
         ColumnChecked?.Invoke();
@@ -69,7 +66,7 @@ public sealed class ColumnDestroyer
             var xPosition = cellsToClear.Average(c => c.transform.position.x);
             var yPosition = cellsToClear.Average(c => c.transform.position.y) + 1f;
             var zPosition = cellsToClear.First().transform.position.z;
-            CreateAnimatedAddedScoreText(resultedPoints, new Vector3(xPosition, yPosition, zPosition - 5f));
+            _textAnimation.CreateAnimatedAddedScoreText(resultedPoints, new Vector3(xPosition, yPosition, zPosition));
         }
     }
 
@@ -220,30 +217,9 @@ public sealed class ColumnDestroyer
         return new Point(position.X + deltaX, position.Y - 1);
     }
 
-    private void CreateAnimatedAddedScoreText(int addedScore, Vector3 position)
-    {
-        var textObject = CreateAddedScoreText(position);
-        var text = textObject.GetComponent<TextMeshPro>();
-        text.text = addedScore.ToString();
-
-        var calculatedScale = 0.5f + (addedScore / 1000);
-        textObject.transform.localScale = new Vector3(calculatedScale, calculatedScale, 1);
-
-        textObject.transform
-            .DOMoveY(position.y + 0.75f, 0.25f)
-            .SetEase(Ease.OutCubic)
-            .OnComplete(() => 
-                text.DOFade(0, 0.25f).SetDelay(0.25f)
-                    .OnComplete(() => _objectController.Destroy(textObject)));
-    }
-
-    private GameObject CreateAddedScoreText(Vector3 position)
-        => _objectController.Instantiate(_addedTextPrefab, position, Quaternion.identity);
-
     private CellFolder _cellFolder;
     private HexagonixFieldProvider _fieldProvider;
     private Tracer _tracer;
     private ScoresOnLevel _scores;
-    private UnityObjectLifeController _objectController;
-    private GameObject _addedTextPrefab;
+    private TextAnimation _textAnimation;
 }

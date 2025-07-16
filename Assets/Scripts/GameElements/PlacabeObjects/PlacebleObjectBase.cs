@@ -26,17 +26,18 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
 
         cell.TryPlace(this,
             onSuccess: position =>
-        {
-            transform.DOMove(
+            {
+                IsPlaced = true;
+                _placedPosition = cell.Position;
+                transform.parent = cell.transform;
+                transform.DOMove(
                 endValue: new Vector3(position.x, position.y, position.z - 1),
                 duration: 0.5f);
-            transform.DOShakeScale(
-                duration: 0.5f,
-                strength: 0.1f,
-                vibrato: 5);
-            transform.parent = cell.transform;
-            IsPlaced = true;
-        });
+                transform.DOShakeScale(
+                    duration: 0.5f,
+                    strength: 0.1f,
+                    vibrato: 5);
+            });
     }
 
     public Cell GetCellToPlaceComponent()
@@ -58,6 +59,11 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
         }
     }
 
+    public Point GetPlacedPosition()
+    {
+        return _placedPosition;
+    }
+
     public abstract int GetPoints();
 
     public Point GetLocalFieldPosition() => _fieldPosition;
@@ -73,4 +79,5 @@ public abstract class PlacebleObjectBase : MonoBehaviour, IPlacebleObject
     }
 
     private Point _fieldPosition;
+    private Point _placedPosition;
 }

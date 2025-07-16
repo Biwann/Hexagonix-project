@@ -545,10 +545,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2163962687230675043, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5313707832374914925, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -629,13 +625,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5517697071679243041, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
+      propertyPath: m_IgnoreReversedGraphics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6589111298766911506, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
       propertyPath: m_Name
       value: Background
       objectReference: {fileID: 0}
-    - target: {fileID: 6589111298766911506, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
+    - target: {fileID: 8075051687098276299, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075051687098276299, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8075051687098276299, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

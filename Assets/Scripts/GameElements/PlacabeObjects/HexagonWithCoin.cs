@@ -27,15 +27,17 @@ public sealed class HexagonWithCoin : DefaultHexagon
         }
 
         var angleStep = 360f / _coinsToAdd;
-        var currentAngle = 90f;
+        var currentAngle = _coinsToAdd % 2 == 0 ? 0 : 90f;
 
         foreach (var coin in coins)
         {
             var radians = currentAngle * Mathf.Deg2Rad;
             currentAngle += angleStep;
             var direction = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0).normalized;
+            var randomDelay = Random.Range(0f, 0.1f);
 
             coin.transform.DOMove(coin.transform.position + direction, 0.3f)
+                .SetDelay(randomDelay)
                 .SetEase(Ease.OutQuad)
                 .OnComplete(() =>
                 {

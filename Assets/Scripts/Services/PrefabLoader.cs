@@ -11,6 +11,7 @@ public class PrefabLoader
         _figureCreator =    LazyLoad(@"LoadPrefabs/GameElements/FigureCreator");
         _defaultHexagon =   LazyLoad(@"LoadPrefabs/PlacebleObjects/DefaultHexagon");
         _hexagonWithCoin =  LazyLoad(@"LoadPrefabs/PlacebleObjects/HexagonWithCoin");
+        _hexagonWithBomb =  LazyLoad(@"LoadPrefabs/PlacebleObjects/HexagonWithBomb");
     }
 
     public GameObject AddedScoreText 
@@ -43,6 +44,11 @@ public class PrefabLoader
         get => _hexagonWithCoin.Value;
     }
 
+    public GameObject HexagonWithBomb
+    {
+        get => _hexagonWithBomb.Value;
+    }
+
     private static Lazy<GameObject> LazyLoad(string path)
         => new Lazy<GameObject>(() => Resources.Load<GameObject>(path));
 
@@ -52,4 +58,5 @@ public class PrefabLoader
     private readonly Lazy<GameObject> _figureCreator;
     private readonly Lazy<GameObject> _defaultHexagon;
     private readonly Lazy<GameObject> _hexagonWithCoin;
+    private readonly Lazy<GameObject> _hexagonWithBomb;
 }

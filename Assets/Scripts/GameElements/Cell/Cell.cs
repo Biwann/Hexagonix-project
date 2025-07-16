@@ -45,14 +45,14 @@ public sealed class Cell : MonoBehaviour
         return 0;
     }
 
-    private SpriteRenderer GetSpriteRenderer()
-        => _cachedSpriteRenderer ??= gameObject.GetComponentInChildren<SpriteRenderer>();
-
     public Point Position => _cellInformation.Position;
 
     public bool IsEmpty => _cellInformation.IsEmpty;
 
     public GameObject GetPlacedGameObject() => _cellInformation.GetPlacedGameObject();
+
+    private SpriteRenderer GetSpriteRenderer()
+        => _cachedSpriteRenderer ??= gameObject.GetComponentInChildren<SpriteRenderer>();
 
     private CellInformation _cellInformation;
     private Tracer _tracer;

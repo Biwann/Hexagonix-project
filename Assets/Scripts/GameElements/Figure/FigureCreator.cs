@@ -40,7 +40,6 @@ public class FigureCreator : MonoBehaviour
 
     public void Init(FigureInformation figureInformation)
     {
-        Debug.Log("Init");
         FigureInformation = figureInformation;
         CreateFigure();
     }
@@ -84,7 +83,7 @@ public class FigureCreator : MonoBehaviour
     private void OnFiguresPlaced()
     {
         HasFigure = false;
-        _gameEvents.InvokeFigurePlaced();
+        _gameEvents.InvokeGameFieldChanged();
     }
 
     private void OnFigureActivate()
@@ -94,7 +93,14 @@ public class FigureCreator : MonoBehaviour
     }
 
     private void SpawnFigure()
-        => Init(_figureProvider.GetNextFigure());
+    {
+        if (HasFigure)
+        {
+            ClearExistingFigure();
+        }
+
+        Init(_figureProvider.GetNextFigure());
+    }
 
     private void SetCanInteractWithFigure(bool value)
     {
@@ -138,6 +144,14 @@ public class FigureCreator : MonoBehaviour
         part.GetComponentInChildren<SpriteRenderer>().material.color = color;
 
         return part;
+    }
+
+    private void ClearExistingFigure()
+    {
+        while (_figureHolder.transform.childCount > 0)
+        {
+            DestroyImmediate(_figureHolder.transform.GetChild(0));
+        }
     }
 
     private bool _canPlaceFigure;

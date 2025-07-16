@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 public class SceneInstaller : MonoInstaller
@@ -9,9 +10,8 @@ public class SceneInstaller : MonoInstaller
         BindStats();
 
         BindSingle<NoMovesLeft>();
-        Container.Bind<UnityObjectLifeController>()
-            .FromInstance(new(Instantiate, Destroy, StartCoroutine))
-            .AsSingle().NonLazy();
+
+        Debug.Log("Scene bindings");
     }
 
     private void BindGameField()

@@ -19,6 +19,7 @@ public sealed class PlacableObjectsFactory
         {
             PlacableObjectType.DefaultHexagon => CreateDefaultHexagon(),
             PlacableObjectType.HexagonWithCoin => CreateHexagonWithCoin(),
+            PlacableObjectType.HexagonWithBomb => CreateHexagonWithBomb(),
             _ => null
         };
     }
@@ -38,6 +39,20 @@ public sealed class PlacableObjectsFactory
         compromnent.Init(
             _container.Resolve<CoinsLocal>(),
             _container.Resolve<CoinsUpgradeCharacteristicProvider>());
+
+        return gameObject;
+    }
+
+    private GameObject CreateHexagonWithBomb()
+    {
+        var gameObject = CreateInstance(_prefabLoader.HexagonWithBomb);
+
+        var compromnent = gameObject.GetComponent<HexagonWithBomb>();
+        compromnent.Init(
+            _container.Resolve<CellFolder>(),
+            _container.Resolve<TextAnimation>(),
+            _container.Resolve<ScoresOnLevel>(),
+            _container.Resolve<GameEvents>());
 
         return gameObject;
     }

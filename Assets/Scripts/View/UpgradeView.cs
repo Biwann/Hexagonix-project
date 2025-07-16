@@ -1,21 +1,29 @@
 using System;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
-using Zenject;
 
 public sealed class UpgradeView : MonoBehaviour
 {
     [SerializeField] TMP_Text _currentLevel;
     [SerializeField] TMP_Text _upgradeCost;
+
     [SerializeField] GameObject _upgradeMaxOut;
     [SerializeField] GameObject _upgradeLocked;
     [SerializeField] GameObject _upgradeNoMoney;
     [SerializeField] TMP_Text _needLevelPlayer;
 
-    public void Inject(IUpgradeInformation upgradeInformation, CoinsLocal coins)
+    [SerializeField] GameObject _newUpgradeTextObject;
+    [SerializeField] TMP_Text _newUpgradeValue;
+    [SerializeField] GameObject _newUpgradeFirst;
+    [SerializeField] GameObject _newUpgradeSecond;
+
+    public void Inject(
+        IUpgradeInformation upgradeInformation,
+        ICharacteristicProvider characteristicProvider,
+        CoinsLocal coins)
     {
         _upgradeInformation = upgradeInformation;
+        _characteristicProvider = characteristicProvider;
         _coins = coins;
 
         UpdateState();
@@ -53,6 +61,8 @@ public sealed class UpgradeView : MonoBehaviour
         var currentLevel = _upgradeInformation.UpgradeLevel;
         _currentLevel.text = currentLevel.ToString();
         _upgradeCost.text = _upgradeInformation.UpgradeCost.ToString();
+        _nextUpgradeType = _characteristicProvider.GetNextUpgrade(out var value);
+        _newUpgradeValue.text = $"+{GetUiValue(value)}";
 
         if (!_upgradeInformation.IsAvailable)
         {
@@ -80,11 +90,13 @@ public sealed class UpgradeView : MonoBehaviour
         var maxOut = false;
         var locked = false;
         var noMoney = false;
+        var showUpgradeValue = false;
 
         switch (state)
         {
             case UpgradeState.NotInitialized:
             case UpgradeState.Ready:
+                showUpgradeValue = true;
                 break;
             case UpgradeState.NotEnoughMoney:
                 noMoney = true;
@@ -101,6 +113,27 @@ public sealed class UpgradeView : MonoBehaviour
         _upgradeMaxOut.SetActive(maxOut);
         _upgradeLocked.SetActive(locked);
         _upgradeNoMoney.SetActive(noMoney);
+        _newUpgradeTextObject.SetActive(showUpgradeValue);
+
+        if (showUpgradeValue)
+        {
+            switch (_nextUpgradeType)
+            {
+                case NextUpgradeType.First:
+                    _newUpgradeFirst.SetActive(true);
+                    _newUpgradeSecond.SetActive(false);
+                    break;
+                case NextUpgradeType.Second:
+                    _newUpgradeFirst.SetActive(false);
+                    _newUpgradeSecond.SetActive(true);
+                    break;
+            }
+        }
+
+        if (maxOut)
+        {
+            _upgradeCost.text = "-";
+        }
 
         _state = state;
     }
@@ -112,9 +145,18 @@ public sealed class UpgradeView : MonoBehaviour
         GlobalProgramEvents.LevelChanging -= Unsubscribe;
     }
 
+    private float GetUiValue(int value)
+    {
+        return _nextUpgradeType == NextUpgradeType.First
+            ? (float)value / PlacebleObjectsProvider.OnePercentValueCost
+            : value;
+    }
+
     private IUpgradeInformation _upgradeInformation;
+    private ICharacteristicProvider _characteristicProvider;
     private CoinsLocal _coins;
     private UpgradeState _state = UpgradeState.NotInitialized;
+    private NextUpgradeType _nextUpgradeType;
 
     private enum UpgradeState
     {

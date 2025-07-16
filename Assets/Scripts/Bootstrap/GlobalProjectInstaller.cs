@@ -5,18 +5,30 @@ public class GlobalProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Debug.Log("Global bindings");
+        BindServices();
 
-        Container.Bind<Tracer>().FromInstance(new Tracer(Debug.Log, Debug.LogWarning)).AsSingle().NonLazy();
-        
-        BindSingle<GlobalProgramEvents>();
-        BindSingle<PrefabLoader>();
-        
         BindScoreSystem();
         BindExpirienceSystem();
         BindCoinsSystem();
 
         BindCoinsUpgrade();
+        BindBombsUpgrade();
+        BindScoresUpgrade();
+
+        Debug.Log("Global bindings");
+    }
+
+    private void BindServices()
+    {
+        Container.Bind<Tracer>().FromInstance(new Tracer(Debug.Log, Debug.LogWarning)).AsSingle().NonLazy();
+
+        BindSingle<GlobalProgramEvents>();
+        BindSingle<PrefabLoader>();
+        BindSingle<TextAnimation>();
+
+        Container.Bind<UnityObjectLifeController>()
+            .FromInstance(new(Instantiate, Destroy, StartCoroutine, StopCoroutine))
+            .AsSingle().NonLazy();
     }
 
     private void BindScoreSystem()
@@ -76,6 +88,41 @@ public class GlobalProjectInstaller : MonoInstaller
         BindSingle<CoinsUpgradeInformationLocal>();
         BindSingle<CoinsUpgradeChecker>();
         BindSingle<CoinsUpgradeCharacteristicProvider>();
+    }
+
+    private void BindBombsUpgrade()
+    {
+        Container.Bind<IBombsUpgradeSaver>()
+#if UNITY_EDITOR
+            .To<BombsUpgradeSaverDefault>()
+#else
+            // TODO: make product realization
+            .To<BombsUpgradeSaverDefault>()
+#endif
+            .AsSingle().NonLazy();
+
+        BindSingle<BombsUpgradeConfig>();
+        BindSingle<BombsUpgradeInformationLocal>();
+        BindSingle<BombsUpgradeChecker>();
+        BindSingle<BombsUpgradeCharacteristicProvider>();
+    }
+
+    private void BindScoresUpgrade()
+    {
+
+        Container.Bind<IScoresUpgradeSaver>()
+#if UNITY_EDITOR
+            .To<ScoresUpgradeSaverDefault>()
+#else
+            // TODO: make product realization
+            .To<ScoresUpgradeSaverDefault>()
+#endif
+            .AsSingle().NonLazy();
+
+        BindSingle<ScoresUpgradeConfig>();
+        BindSingle<ScoresUpgradeInformationLocal>();
+        BindSingle<ScoresUpgradeChecker>();
+        BindSingle<ScoresUpgradeCharacteristicProvider>();
     }
 
     private void BindSingle<T>()

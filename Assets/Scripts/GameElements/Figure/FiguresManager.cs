@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Zenject;
 
 public sealed class FiguresManager
@@ -11,11 +13,13 @@ public sealed class FiguresManager
     public void Init(
         GameEvents gameEvents,
         ColumnDestroyer columnDestroyer,
-        CellFolder cellFolder)
+        CellFolder cellFolder,
+        UnityObjectLifeController objectController)
     {
         _gameEvents = gameEvents;
         _cellFolder = cellFolder;
         _columnDestroyer = columnDestroyer;
+        _objectController = objectController;
 
         _columnDestroyer.ColumnChecked += OnColumnChecked;
         GameEvents.LevelChanging += OnRestarting;
@@ -26,6 +30,7 @@ public sealed class FiguresManager
         _columnDestroyer.ColumnChecked -= OnColumnChecked;
         GameEvents.LevelChanging -= OnRestarting;
         _figureCreators.Clear();
+        StopLooseCoroutine();
     }
 
     public void AddFigure(FigureCreator figureCreator)
@@ -42,7 +47,7 @@ public sealed class FiguresManager
 
     private void ActivateFiguresIfAllEmpty()
     {
-        if (_figureCreators.All(f => !f.HasFigure))
+        while (_figureCreators.All(f => !f.HasFigure) || _figureCreators.All(f => f.HasFigure && !f.CanPlaceFigure()))
         {
             ActivateFigures?.Invoke();
         }
@@ -67,7 +72,11 @@ public sealed class FiguresManager
     {
         if (_figureCreators.All(f => !f.HasFigure || !f.CanPlaceFigure()))
         {
-            _gameEvents.InvokeNoMovesLeft();
+            StartLooseCoroutine();
+        }
+        else
+        {
+            StopLooseCoroutine();
         }
     }
 
@@ -107,8 +116,37 @@ public sealed class FiguresManager
         return false;
     }
 
+    private void StartLooseCoroutine()
+    {
+        if (_looseCoroutine != null)
+        {
+            StopLooseCoroutine();
+        }
+        
+        _looseCoroutine = _objectController.StartCoroutine(LooseTimerCorouine());
+    }
+
+    private void StopLooseCoroutine()
+    {
+        if (_looseCoroutine != null)
+        {
+            _objectController.StopCoroutine(_looseCoroutine);
+            _looseCoroutine = null;
+        }
+    }
+
+    private IEnumerator LooseTimerCorouine()
+    {
+        yield return new WaitForSecondsRealtime(_looseDelaySec);
+
+        _gameEvents.InvokeNoMovesLeft();
+    }
+
+    private const float _looseDelaySec = 0.5f;
+    private Coroutine _looseCoroutine;
     private List<FigureCreator> _figureCreators = new();
     private GameEvents _gameEvents;
     private CellFolder _cellFolder;
     private ColumnDestroyer _columnDestroyer;
+    private UnityObjectLifeController _objectController;
 }

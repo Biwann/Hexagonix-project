@@ -2,7 +2,7 @@ using System;
 
 public sealed class GameEvents
 {
-    public static event Action FigurePlaced;
+    public static event Action GameFieldChanged;
     public static event Action NoMovesLeft;
     public static event Action GameEnded;
     public static event Action LevelChanging;
@@ -19,9 +19,9 @@ public sealed class GameEvents
         GlobalProgramEvents.NavigateOnMainMenu();
     }
 
-    public void InvokeFigurePlaced()
+    public void InvokeGameFieldChanged()
     {
-        FigurePlaced?.Invoke();
+        GameFieldChanged?.Invoke();
     }
     
     public void InvokeNoMovesLeft()

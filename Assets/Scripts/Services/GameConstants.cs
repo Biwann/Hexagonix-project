@@ -6,7 +6,7 @@ public static class GameConstants
 
     public const string SavingCoinsUpgradeName = "Saving.CoinsUpgrade";
     public const string SavingBombUpgradeName = "Saving.BombUpgrade";
-    public const string SavingColorKillerUpgradeName = "Saving.ColorKillerUpgrade";
+    public const string SavingScoresUpgradeName = "Saving.ScoresUpgrade";
 
     public const string MainMenuSceneName = "MainMenuScene";
     public const string GameSceneName = "GameScene";

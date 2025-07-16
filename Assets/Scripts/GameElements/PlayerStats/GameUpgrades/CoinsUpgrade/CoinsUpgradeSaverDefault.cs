@@ -5,7 +5,7 @@ public sealed class CoinsUpgradeSaverDefault : ICoinsUpgradeSaver
 {
     public CoinsUpgradeSaverDefault()
     {
-        SavedCoinsUpgradeLevel = 0;//PlayerPrefs.GetInt(GameConstants.SavingCoinsUpgradeName, 0);
+        SavedCoinsUpgradeLevel = PlayerPrefs.GetInt(GameConstants.SavingCoinsUpgradeName, 0);
     }
 
     public int SavedCoinsUpgradeLevel
