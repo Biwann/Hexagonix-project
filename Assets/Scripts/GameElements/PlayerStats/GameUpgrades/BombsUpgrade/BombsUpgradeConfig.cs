@@ -28,6 +28,7 @@ public sealed class BombsUpgradeConfig : UpgradeConfig
             }
 
             _costList.Add(current);
+            // итого 25 уровней, в сумме 69 745 монет
         }
     }
 }

@@ -3,8 +3,14 @@ using UnityEngine;
 
 public class DefaultHexagon : PlacebleObjectBase
 {
+    public void Init(
+        ScoresUpgradeCharacteristicProvider scoresProvider)
+    {
+        _scoresProvider = scoresProvider;
+    }
+
     public override int GetPoints()
-        => 10;
+        => _scoresProvider.ScoresInHexagon;
 
     protected override void DestroyObjectImpl()
     {
@@ -14,4 +20,6 @@ public class DefaultHexagon : PlacebleObjectBase
             .SetEase(Ease.InOutQuart)
             .OnComplete(() => base.DestroyObjectImpl());
     }
+
+    private ScoresUpgradeCharacteristicProvider _scoresProvider;
 }

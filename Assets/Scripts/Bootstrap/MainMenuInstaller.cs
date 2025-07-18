@@ -19,7 +19,7 @@ public sealed class MainMenuInstaller : MonoInstaller
             Container.Resolve<BombsUpgradeCharacteristicProvider>(),
             Container.Resolve<CoinsLocal>());
 
-        _bombsUpgradeView.Inject(
+        _scoreUpgradeView.Inject(
             Container.Resolve<ScoresUpgradeInformationLocal>(),
             Container.Resolve<ScoresUpgradeCharacteristicProvider>(),
             Container.Resolve<CoinsLocal>());

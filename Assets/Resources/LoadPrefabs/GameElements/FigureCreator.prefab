@@ -129,8 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cbd4766978c2d45975c6308f1486fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellPrefab: {fileID: 75599304569039318, guid: 9746fd635dc84384db6c254cf980a8fc, type: 3}
-  _collider: {fileID: 4180622804384735524, guid: 64b06fe1641fec944bab9328ef9ce8ea, type: 3}
   _figureBlockerView: {fileID: 8632212780648180116}
 --- !u!1 &7903445880160296291
 GameObject:

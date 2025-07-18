@@ -4,25 +4,25 @@ public sealed class ScoresUpgradeChecker
         IScoresUpgradeSaver bombsUpgradeSaver,
         ScoresUpgradeInformationLocal bombsLocal)
     {
-        _bombsUpgradeSaver = bombsUpgradeSaver;
-        _bombsUpgradeLocal = bombsLocal;
+        _scoresUpgradeSaver = bombsUpgradeSaver;
+        _scoresUpgradeLocal = bombsLocal;
 
-        var diff = _bombsUpgradeSaver.SavedScoresUpgradeLevel - _bombsUpgradeLocal.UpgradeLevel;
+        var diff = _scoresUpgradeSaver.SavedScoresUpgradeLevel - _scoresUpgradeLocal.UpgradeLevel;
 
         for (int i = 0; i < diff; i++)
         {
-            _bombsUpgradeLocal.DoUpgrade();
+            _scoresUpgradeLocal.DoUpgrade();
         }
 
-        _bombsUpgradeLocal.OnInformationChanged += OnLocalScoresUpgradeLevelChanged;
+        _scoresUpgradeLocal.OnInformationChanged += OnLocalScoresUpgradeLevelChanged;
     }
 
     private void OnLocalScoresUpgradeLevelChanged()
     {
-        var newLevel = _bombsUpgradeLocal.UpgradeLevel;
-        _bombsUpgradeSaver.TryChangeSavedScoresUpgradeLevevl(newLevel);
+        var newLevel = _scoresUpgradeLocal.UpgradeLevel;
+        _scoresUpgradeSaver.TryChangeSavedScoresUpgradeLevevl(newLevel);
     }
 
-    private readonly IScoresUpgradeSaver _bombsUpgradeSaver;
-    private readonly ScoresUpgradeInformationLocal _bombsUpgradeLocal;
+    private readonly IScoresUpgradeSaver _scoresUpgradeSaver;
+    private readonly ScoresUpgradeInformationLocal _scoresUpgradeLocal;
 }

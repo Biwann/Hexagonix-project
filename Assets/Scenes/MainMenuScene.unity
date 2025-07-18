@@ -230,8 +230,8 @@ Canvas:
   m_GameObject: {fileID: 122217521}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1690809608}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -356,7 +356,7 @@ Transform:
   m_GameObject: {fileID: 474835861}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1171, y: 254, z: 0}
+  m_LocalPosition: {x: 192, y: -18, z: 0}
   m_LocalScale: {x: 30, y: 30, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -714,6 +714,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 110415090}
     m_Modifications:
     - target: {fileID: 402648590225038530, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_text
+      value: 'points
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 402648590225038530, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
@@ -737,9 +743,25 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 271d19b6890a70642bdb18ca15ce9081, type: 3}
+    - target: {fileID: 3896770206657189753, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: _upgradeParticles
+      value: 
+      objectReference: {fileID: 1172456553}
     - target: {fileID: 4952354560904372683, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313051025112635567, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_text
+      value: points
+      objectReference: {fileID: 0}
+    - target: {fileID: 5313051025112635567, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_fontSize
+      value: 31.3
       objectReference: {fileID: 0}
     - target: {fileID: 5993359617743182507, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_IsActive
@@ -765,6 +787,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Upgrade_scores
       objectReference: {fileID: 0}
+    - target: {fileID: 6160568387383212438, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6235783659403918884, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_SizeDelta.x
       value: 110
@@ -783,7 +809,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7057396835433528293, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8236968972409110242, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_Pivot.x
@@ -979,6 +1005,16 @@ MonoBehaviour:
   m_EffectColor: {r: 0.16078432, g: 0.16078432, b: 0.16078432, a: 1}
   m_EffectDistance: {x: 7, y: -7}
   m_UseGraphicAlpha: 0
+--- !u!198 &871630273 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8384609623491444093, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+  m_PrefabInstance: {fileID: 1882890442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1172456553 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8384609623491444093, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+  m_PrefabInstance: {fileID: 830193500}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1191977985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1368,7 +1404,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1690809609}
   - component: {fileID: 1690809608}
-  - component: {fileID: 1690809607}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1376,14 +1411,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1690809607
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1690809606}
-  m_Enabled: 1
 --- !u!20 &1690809608
 Camera:
   m_ObjectHideFlags: 0
@@ -1462,6 +1489,10 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 942651078229212039, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1479466432017585064, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -1482,6 +1513,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d8eac3f74ca677b4abdabf4ff50f2ddc, type: 3}
+    - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: _upgradeParticles
+      value: 
+      objectReference: {fileID: 871630273}
     - target: {fileID: 4952354560904372683, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1622,6 +1657,14 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 2449370399689580767, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1690809608}
+    - target: {fileID: 2449370399689580767, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2547993209625732681, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8
@@ -1742,7 +1785,7 @@ PrefabInstance:
     - target: {fileID: 2163962687230675043, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1690809608}
     - target: {fileID: 5313707832374914925, guid: 4f35f4955e1802b4f90f2b43c336e8ae, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1844,38 +1887,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 110415090}
     m_Modifications:
-    - target: {fileID: 402648590225038530, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1595894952285336941, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3087701180913941660, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3139871559197311443, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4952354560904372683, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5313051025112635567, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_text
-      value: chance
-      objectReference: {fileID: 0}
-    - target: {fileID: 5313051025112635567, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_fontSize
-      value: 30.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5993359617743182507, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6160568387383212438, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_Name
       value: Upgrade_coins

@@ -18,7 +18,7 @@ public sealed class ScoresUpgradeCharacteristicProvider : ICharacteristicProvide
         var nextScores = GetCharacteristics(_upgradeInformation.UpgradeLevel + 1);
 
         value = (nextScores - ScoresInHexagon);
-        return NextUpgradeType.First;
+        return NextUpgradeType.Second;
     }
 
     private void UpdateLocals()

@@ -5,6 +5,8 @@ public class GlobalProjectInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
+        GameSettings();
+
         BindServices();
 
         BindScoreSystem();
@@ -16,6 +18,12 @@ public class GlobalProjectInstaller : MonoInstaller
         BindScoresUpgrade();
 
         Debug.Log("Global bindings");
+    }
+
+    private void GameSettings()
+    {
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
     }
 
     private void BindServices()

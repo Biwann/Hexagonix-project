@@ -115,10 +115,10 @@ public class FigureCreator : MonoBehaviour
         figure.CanInteract = value;
         figure.ObjectsInFigure.ForEach(o =>
         {
-            var prevColor = o.gameObject.GetComponentInChildren<SpriteRenderer>().material.color;
+            var prevColor = o.gameObject.GetComponentInChildren<SpriteRenderer>().color;
             var newColor = new UnityEngine.Color(prevColor.r, prevColor.g, prevColor.b,
                 value ? 1f : 0.1f);
-            o.gameObject.GetComponentInChildren<SpriteRenderer>().material.color = newColor;
+            o.gameObject.GetComponentInChildren<SpriteRenderer>().color = newColor;
         });
     }
 
@@ -141,7 +141,7 @@ public class FigureCreator : MonoBehaviour
         var part = _placebleObjectsProvider.GetRandomPlacableObject();
 
         part.transform.position = new Vector3(pos.x, pos.y, pos.z);
-        part.GetComponentInChildren<SpriteRenderer>().material.color = color;
+        part.GetComponentInChildren<SpriteRenderer>().color = color;
 
         return part;
     }

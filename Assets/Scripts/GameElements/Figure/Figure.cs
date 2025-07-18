@@ -112,7 +112,13 @@ public sealed class Figure : MonoBehaviour
         var mp = Input.mousePosition;
         var position = _camera.ScreenToWorldPoint(mp);
 
-        transform.position = new Vector3(position.x, position.y + 2, _startPosition.z - 5);
+        var movePositionMuliplierX = (position.x - _startPosition.x) / 3;
+        var movePositionMuliplierY = (position.y - _startPosition.y) / 2;
+
+        transform.position = new Vector3(
+            position.x + movePositionMuliplierX, 
+            position.y + movePositionMuliplierY + 2, 
+            _startPosition.z - 5);
     }
 
     private void AddPointsForPlacing()
@@ -173,13 +179,19 @@ public sealed class Figure : MonoBehaviour
             List<Cell> currentCells = new();
             ObjectsInFigure.ForEach(p => currentCells.Add(p.GetCellToPlaceComponent()));
 
-            if (!currentCells.SequenceEqual(_savedTrackedCellsWithColor.Select(c => c.Cell)))
+            if (!currentCells.SequenceEqual(_savedTrackedCells))
             {
                 ReturnColorAndClearCachedCells();
                 currentCells.ForEach(c =>
                 {
-                    _savedTrackedCellsWithColor.Add((c, c.GetColor()));
-                    c.ChangeColor(_currentColor);
+                    _savedTrackedCells.Add(c);
+                    // make color darker
+                    var changeColor = new Color(
+                        _currentColor.r * 0.5f,
+                        _currentColor.g * 0.5f,
+                        _currentColor.b * 0.5f);
+
+                    c.ChangeColor(changeColor);
                 });
             }
         }
@@ -187,12 +199,12 @@ public sealed class Figure : MonoBehaviour
 
     private void ReturnColorAndClearCachedCells()
     {
-        foreach (var (cell, color) in _savedTrackedCellsWithColor)
+        foreach (var cell in _savedTrackedCells)
         {
-            cell.ChangeColor(color);
+            cell.SetDefaultColor();
         }
 
-        _savedTrackedCellsWithColor.Clear();
+        _savedTrackedCells.Clear();
     }
 
     private const float NORMAL_SCALE = 1f;
@@ -203,6 +215,6 @@ public sealed class Figure : MonoBehaviour
     private Vector3 _startPosition;
     private ScoresOnLevel _score;
     private Color _currentColor;
-    private List<(Cell Cell, Color Color)> _savedTrackedCellsWithColor = new();
+    private List<Cell> _savedTrackedCells = new();
     private Coroutine _cellTracker;
 }

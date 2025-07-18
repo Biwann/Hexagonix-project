@@ -17,6 +17,8 @@ public sealed class UpgradeView : MonoBehaviour
     [SerializeField] GameObject _newUpgradeFirst;
     [SerializeField] GameObject _newUpgradeSecond;
 
+    [SerializeField] ParticleSystem _upgradeParticles;
+
     public void Inject(
         IUpgradeInformation upgradeInformation,
         ICharacteristicProvider characteristicProvider,
@@ -47,6 +49,7 @@ public sealed class UpgradeView : MonoBehaviour
         {
             Debug.Log("do upgrade");
             _upgradeInformation.DoUpgrade();
+            _upgradeParticles.Play();
         }
     }
 

@@ -14,13 +14,20 @@ public sealed class Cell : MonoBehaviour
     public void Init(CellInformation cellInformation)
     {
         _cellInformation = cellInformation;
+        _defaultColor = GetColor();
     }
 
     public void ChangeColor(UnityEngine.Color color)
-        => GetSpriteRenderer().material.color = color;
+    {
+        var renderer = GetSpriteRenderer();
+        renderer.color = color;
+    }
+
+    public void SetDefaultColor()
+        => ChangeColor(_defaultColor);
 
     public UnityEngine.Color GetColor()
-        => GetSpriteRenderer().material.color;
+        => GetSpriteRenderer().color;
 
     public bool TryPlace(IPlacebleObject item, Action<Vector3> onSuccess = null)
     {
@@ -55,6 +62,7 @@ public sealed class Cell : MonoBehaviour
         => _cachedSpriteRenderer ??= gameObject.GetComponentInChildren<SpriteRenderer>();
 
     private CellInformation _cellInformation;
+    private UnityEngine.Color _defaultColor;
     private Tracer _tracer;
     private SpriteRenderer _cachedSpriteRenderer;
 }

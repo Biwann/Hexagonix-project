@@ -8,10 +8,13 @@ public sealed class HexagonWithCoin : DefaultHexagon
 
     public void Init(
         CoinsLocal coinsLocal,
-        CoinsUpgradeCharacteristicProvider characteristic)
+        CoinsUpgradeCharacteristicProvider characteristic,
+        ScoresUpgradeCharacteristicProvider scoresProvider)
     {
         _coinsLocal = coinsLocal;
         _coinsToAdd = characteristic.CoinsPerOneHexagonWithCoin;
+
+        base.Init(scoresProvider);
     }
 
     protected override void DestroyObjectImpl()

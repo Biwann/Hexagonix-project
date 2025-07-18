@@ -28,6 +28,10 @@ public sealed class PlacableObjectsFactory
     {
         var gameObject = CreateInstance(_prefabLoader.DefaultHexagon);
 
+        var compromnent = gameObject.GetComponent<DefaultHexagon>();
+        compromnent.Init(
+            _container.Resolve<ScoresUpgradeCharacteristicProvider>());
+
         return gameObject;
     }
 
@@ -38,7 +42,8 @@ public sealed class PlacableObjectsFactory
         var compromnent = gameObject.GetComponent<HexagonWithCoin>();
         compromnent.Init(
             _container.Resolve<CoinsLocal>(),
-            _container.Resolve<CoinsUpgradeCharacteristicProvider>());
+            _container.Resolve<CoinsUpgradeCharacteristicProvider>(),
+            _container.Resolve<ScoresUpgradeCharacteristicProvider>());
 
         return gameObject;
     }
@@ -52,7 +57,8 @@ public sealed class PlacableObjectsFactory
             _container.Resolve<CellFolder>(),
             _container.Resolve<TextAnimation>(),
             _container.Resolve<ScoresOnLevel>(),
-            _container.Resolve<GameEvents>());
+            _container.Resolve<GameEvents>(),
+            _container.Resolve<ScoresUpgradeCharacteristicProvider>());
 
         return gameObject;
     }

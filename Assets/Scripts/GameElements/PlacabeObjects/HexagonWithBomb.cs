@@ -12,12 +12,15 @@ public sealed class HexagonWithBomb : DefaultHexagon
         CellFolder cellFolder,
         TextAnimation textAnimation,
         ScoresOnLevel scoresOnLevel,
-        GameEvents gameEvents)
+        GameEvents gameEvents,
+        ScoresUpgradeCharacteristicProvider scoresProvider)
     {
         _cellFolder = cellFolder;
         _textAnimation = textAnimation;
         _scoresOnLevel = scoresOnLevel;
         _gameEvents = gameEvents;
+
+        base.Init(scoresProvider);
     }
 
     protected override void DestroyObjectImpl()
@@ -36,10 +39,9 @@ public sealed class HexagonWithBomb : DefaultHexagon
     {
         var currentPosition = GetPlacedPosition();
         Debug.Log("current position : " + currentPosition);
-        var neighborsShifts = new (int, int)[] { (-1, 0), (1, 0), (-1, 1), (0, 1), (-1, -1), (0, -1) };
         var neighbors = new List<Cell>();
 
-        foreach (var (xShift, yShift) in neighborsShifts)
+        foreach (var (xShift, yShift) in _neighborsShifts)
         {
             var needHorizontalShift = currentPosition.Y % 2 != 0 && yShift != 0;
             var nXPosition = currentPosition.X + xShift + (needHorizontalShift ? 1 : 0);
@@ -83,7 +85,7 @@ public sealed class HexagonWithBomb : DefaultHexagon
     private void DestroyNeighbors()
     {
         var scores = 0;
-        GetNeighbors().ForEach(c => scores += c.ClearCellAndGetPoints() * 9);
+        GetNeighbors().ForEach(c => scores += c.ClearCellAndGetPoints() * 2);
 
         if (scores > 0)
         {
@@ -108,6 +110,7 @@ public sealed class HexagonWithBomb : DefaultHexagon
             });
     }
 
+    private static (int, int)[] _neighborsShifts = new (int, int)[] { (-1, 0), (1, 0), (-1, 1), (0, 1), (-1, -1), (0, -1) };
     private static int _cameraShakeAmount;
     private CellFolder _cellFolder;
     private TextAnimation _textAnimation;
