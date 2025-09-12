@@ -54,7 +54,9 @@ public sealed class HexagonWithCoin : DefaultHexagon
                         });
                 });
         }
-        
+
+        GameAudioController.Instance.PlayCoin();
+
         base.DestroyObjectImpl();
     }
 

@@ -5,9 +5,10 @@ public sealed class ScoresRecordDefault : IScoresRecord
 {
     public event Action<int> ScoresRecordChanged;
 
-    public ScoresRecordDefault()
+    public ScoresRecordDefault(IDataSaver dataSaver)
     {
-        ScoreRecord = PlayerPrefs.GetInt(GameConstants.SavingScoreRecordName, defaultValue: 0);
+        _dataSaver = dataSaver;
+        ScoreRecord = _dataSaver.GetInt(GameConstants.SavingScoreRecordName, defaultValue: 0);
     }
 
     public int ScoreRecord
@@ -37,11 +38,11 @@ public sealed class ScoresRecordDefault : IScoresRecord
         }
 
         ScoreRecord = score;
-        PlayerPrefs.SetInt(GameConstants.SavingScoreRecordName, ScoreRecord);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingScoreRecordName, ScoreRecord);
         
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _scoreRecord = 0;
 }

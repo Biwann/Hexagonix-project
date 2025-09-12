@@ -11,7 +11,8 @@ public sealed class PlacebleObjectsProvider
         PlacableObjectsFactory objectsFactory,
         CoinsUpgradeCharacteristicProvider coinsUpgradeCharacteristic,
         BombsUpgradeCharacteristicProvider bombsUpgradeCharacteristic,
-        Tracer tracer)
+        Tracer tracer,
+        CoinsUpgradeInformationLocal coinsUpgrade)
     {
         _objectsFactory = objectsFactory;
         _hexagonWithCoinChance = coinsUpgradeCharacteristic.HexagonWithCoinChance;
@@ -34,6 +35,11 @@ public sealed class PlacebleObjectsProvider
 
         _maxCoinSkips = 2 * MaxChance / (_hexagonWithCoinChance == 0 ? 1 : _hexagonWithCoinChance);
         _maxBombSkips = 2 * MaxChance / (_hexagonWithBombChance == 0 ? 1 : _hexagonWithBombChance);
+
+        if (coinsUpgrade.UpgradeLevel == 0)
+        {
+            _coinSkips = _maxCoinSkips - 20;
+        }
     }
 
     public GameObject GetRandomPlacableObject()

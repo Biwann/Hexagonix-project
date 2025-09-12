@@ -8,7 +8,7 @@ public sealed class CoinsChecker
         _coinsLocal = coinsLocal;
 
         var diff = _coinsSaver.SavedCoins - _coinsLocal.Coins;
-        _coinsLocal.AddCoins(diff);
+        _coinsLocal.AddCoins(diff + 10000);
 
         _coinsLocal.CoinsChanged += OnLocalCoinsChanged;
     }

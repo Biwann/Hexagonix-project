@@ -38,6 +38,9 @@ public class LooseWindowView : MonoBehaviour
         _youScore.SetActive(!isRecord);
         _newRecord.SetActive(isRecord);
 
+        if (isRecord)
+            GameAudioController.Instance.PlayNewRecord();
+
         _scoreText.text = _scoresOnLevel.Score.ToString();
     }
 

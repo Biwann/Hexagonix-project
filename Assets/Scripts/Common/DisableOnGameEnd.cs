@@ -12,6 +12,6 @@ public sealed class DisableOnGameEnd : MonoBehaviour
     private void OnGameEnded()
     {
         GameEvents.GameEnded -= OnGameEnded;
-        gameObject.SetActive(false);
+        gameObject?.SetActive(false);
     }
 }

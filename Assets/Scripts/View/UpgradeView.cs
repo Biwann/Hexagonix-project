@@ -18,6 +18,7 @@ public sealed class UpgradeView : MonoBehaviour
     [SerializeField] GameObject _newUpgradeSecond;
 
     [SerializeField] ParticleSystem _upgradeParticles;
+    [SerializeField] MainMenuAudioController _audioController;
 
     public void Inject(
         IUpgradeInformation upgradeInformation,
@@ -40,6 +41,7 @@ public sealed class UpgradeView : MonoBehaviour
         Debug.Log("try buy upgrade");
         if (_state != UpgradeState.Ready)
         {
+            _audioController.PlayCantUpgradeSound();
             return;
         }
 
@@ -50,6 +52,11 @@ public sealed class UpgradeView : MonoBehaviour
             Debug.Log("do upgrade");
             _upgradeInformation.DoUpgrade();
             _upgradeParticles.Play();
+            _audioController.PlayUpgradeSound();
+        }
+        else
+        {
+            _audioController.PlayCantUpgradeSound();
         }
     }
 

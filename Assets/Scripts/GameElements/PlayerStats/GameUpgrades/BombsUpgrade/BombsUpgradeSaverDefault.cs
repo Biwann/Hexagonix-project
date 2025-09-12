@@ -3,9 +3,10 @@ using UnityEngine;
 
 public sealed class BombsUpgradeSaverDefault : IBombsUpgradeSaver
 {
-    public BombsUpgradeSaverDefault()
+    public BombsUpgradeSaverDefault(IDataSaver dataSaver)
     {
-        SavedBombsUpgradeLevel = PlayerPrefs.GetInt(GameConstants.SavingBombUpgradeName, 0);
+        _dataSaver = dataSaver;
+        SavedBombsUpgradeLevel = _dataSaver.GetInt(GameConstants.SavingBombUpgradeName, 0);
     }
 
     public int SavedBombsUpgradeLevel
@@ -28,11 +29,11 @@ public sealed class BombsUpgradeSaverDefault : IBombsUpgradeSaver
     public bool TryChangeSavedBombsUpgradeLevevl(int level)
     {
         SavedBombsUpgradeLevel = level;
-        PlayerPrefs.SetInt(GameConstants.SavingBombUpgradeName, SavedBombsUpgradeLevel);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingBombUpgradeName, SavedBombsUpgradeLevel);
 
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _savedBombsUpgradeLevel;
 }

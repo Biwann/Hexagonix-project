@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public sealed class Figure : MonoBehaviour
 {
@@ -37,7 +38,7 @@ public sealed class Figure : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!CanInteract) return;
+        if (IsPaused() || !CanInteract) return;
 
         AlignFiguresInCenter(NORMAL_SCALE);
         StartTrackingCanPlaceCell();
@@ -45,7 +46,7 @@ public sealed class Figure : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (!CanInteract) return;
+        if (IsPaused() || !CanInteract) return;
 
         SetWorldCoordinatesFromMousePosition();
     }
@@ -54,7 +55,7 @@ public sealed class Figure : MonoBehaviour
     {
         StopTrackingCanPlaceCell();
 
-        if (!CanInteract) return;
+        if (IsPaused() || !CanInteract) return;
 
         Debug.Log("Mouse UP");
         var placed = PlaceObjects();
@@ -93,12 +94,13 @@ public sealed class Figure : MonoBehaviour
         if (!CanPlaceObjects())
         {
             Debug.Log("CANT PLACE");
+            GameAudioController.Instance.PlayCantPlaceHexagon();
             return false;
         }
 
         Debug.Log($"PLACING {ObjectsInFigure.Count} objects" );
         ObjectsInFigure.ForEach(o => o.Place());
-
+        GameAudioController.Instance.PlayPlaceHexagon();
         AddPointsForPlacing();
 
         ObjectsInFigure.Clear();
@@ -117,7 +119,7 @@ public sealed class Figure : MonoBehaviour
 
         transform.position = new Vector3(
             position.x + movePositionMuliplierX, 
-            position.y + movePositionMuliplierY + 2, 
+            position.y + movePositionMuliplierY + 4, 
             _startPosition.z - 5);
     }
 
@@ -206,6 +208,9 @@ public sealed class Figure : MonoBehaviour
 
         _savedTrackedCells.Clear();
     }
+
+    private bool IsPaused()
+        => PauseController.IsPaused;
 
     private const float NORMAL_SCALE = 1f;
     private const float NORMAL_WAITING_SCALE = 0.75f;

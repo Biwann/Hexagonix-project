@@ -3,9 +3,10 @@ using UnityEngine;
 
 public sealed class CoinsUpgradeSaverDefault : ICoinsUpgradeSaver
 {
-    public CoinsUpgradeSaverDefault()
+    public CoinsUpgradeSaverDefault(IDataSaver dataSaver)
     {
-        SavedCoinsUpgradeLevel = PlayerPrefs.GetInt(GameConstants.SavingCoinsUpgradeName, 0);
+        _dataSaver = dataSaver;
+        SavedCoinsUpgradeLevel = _dataSaver.GetInt(GameConstants.SavingCoinsUpgradeName, 0);
     }
 
     public int SavedCoinsUpgradeLevel
@@ -28,11 +29,11 @@ public sealed class CoinsUpgradeSaverDefault : ICoinsUpgradeSaver
     public bool TryChangeSavedCoinsUpgradeLevevl(int level)
     {
         SavedCoinsUpgradeLevel = level;
-        PlayerPrefs.SetInt(GameConstants.SavingCoinsUpgradeName, SavedCoinsUpgradeLevel);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingCoinsUpgradeName, SavedCoinsUpgradeLevel);
 
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _savedCoinsUpgradeLevel;
 }

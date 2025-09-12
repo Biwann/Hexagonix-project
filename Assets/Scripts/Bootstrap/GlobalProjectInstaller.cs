@@ -37,6 +37,10 @@ public class GlobalProjectInstaller : MonoInstaller
         Container.Bind<UnityObjectLifeController>()
             .FromInstance(new(Instantiate, Destroy, StartCoroutine, StopCoroutine))
             .AsSingle().NonLazy();
+
+        Container.Bind<IDataSaver>()
+            .To<DataSaverDefault>()
+            .AsSingle().NonLazy();
     }
 
     private void BindScoreSystem()

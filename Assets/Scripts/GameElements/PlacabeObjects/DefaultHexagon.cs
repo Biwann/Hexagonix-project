@@ -18,7 +18,11 @@ public class DefaultHexagon : PlacebleObjectBase
         transform.DOScale(Vector3.zero, duration: 0.25f)
             .SetDelay(randomDelay)
             .SetEase(Ease.InOutQuart)
-            .OnComplete(() => base.DestroyObjectImpl());
+            .OnComplete(() =>
+            {
+                GameAudioController.Instance.PlayPopHexagon();
+                base.DestroyObjectImpl();
+            });
     }
 
     private ScoresUpgradeCharacteristicProvider _scoresProvider;

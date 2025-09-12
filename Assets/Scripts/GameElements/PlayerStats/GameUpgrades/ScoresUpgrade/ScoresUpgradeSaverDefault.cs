@@ -3,9 +3,10 @@ using UnityEngine;
 
 public sealed class ScoresUpgradeSaverDefault : IScoresUpgradeSaver
 {
-    public ScoresUpgradeSaverDefault()
+    public ScoresUpgradeSaverDefault(IDataSaver dataSaver)
     {
-        SavedScoresUpgradeLevel = PlayerPrefs.GetInt(GameConstants.SavingScoresUpgradeName, 0);
+        _dataSaver = dataSaver;
+        SavedScoresUpgradeLevel = _dataSaver.GetInt(GameConstants.SavingScoresUpgradeName, 0);
     }
 
     public int SavedScoresUpgradeLevel
@@ -28,11 +29,11 @@ public sealed class ScoresUpgradeSaverDefault : IScoresUpgradeSaver
     public bool TryChangeSavedScoresUpgradeLevevl(int level)
     {
         SavedScoresUpgradeLevel = level;
-        PlayerPrefs.SetInt(GameConstants.SavingScoresUpgradeName, SavedScoresUpgradeLevel);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingScoresUpgradeName, SavedScoresUpgradeLevel);
 
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _savedScoresUpgradeLevel;
 }

@@ -68,6 +68,7 @@ public sealed class HexagonWithBomb : DefaultHexagon
             _explosiveObject.transform.position.y, 
             _explosiveObject.transform.position.z - 5f);
 
+        GameAudioController.Instance.PlayBomb();
         _explosiveObject.SetActive(true);
 
         _explosiveObject.transform.DOScale(Vector3.one, 0.25f)
@@ -98,7 +99,7 @@ public sealed class HexagonWithBomb : DefaultHexagon
 
     private void ShakeCamera()
     {
-        GameCamera.Instance?.DOShakePosition(0.5f, 0.5f, 10, 90f, false)
+        GameCamera.Instance?.DOShakePosition(0.5f, 0.25f, 10, 90f, false)
             .OnStart(() => _cameraShakeAmount++)
             .OnComplete(() =>
             {

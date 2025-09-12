@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class CoinsSaverDefault : ICoinsSaver
 {
-    public CoinsSaverDefault()
+    public CoinsSaverDefault(IDataSaver dataSaver)
     {
-        SavedCoins = PlayerPrefs.GetInt(GameConstants.SavingCoinsName, defaultValue: 0);
+        _dataSaver = dataSaver;
+        SavedCoins = _dataSaver.GetInt(GameConstants.SavingCoinsName, defaultValue: 0);
     }
 
     public event Action<int> SavedCoinsChanged;
@@ -31,11 +32,11 @@ public class CoinsSaverDefault : ICoinsSaver
     public bool TryChangeSavedCoins(int coins)
     {
         SavedCoins = coins;
-        PlayerPrefs.SetInt(GameConstants.SavingCoinsName, SavedCoins);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingCoinsName, SavedCoins);
 
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _savedCoins;
 }

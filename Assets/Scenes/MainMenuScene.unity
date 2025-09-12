@@ -748,6 +748,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: _audioController
+      value: 
+      objectReference: {fileID: 1760212503}
+    - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: _upgradeParticles
       value: 
       objectReference: {fileID: 1172456553}
@@ -890,6 +894,10 @@ PrefabInstance:
     - target: {fileID: 8236968972409110242, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8384609623491444093, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1341,6 +1349,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 572952861387736821}
+        m_TargetAssemblyTypeName: MainAudioController, Assembly-CSharp
+        m_MethodName: PlayButtonClickSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1577896723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1354,7 +1374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.12941177, g: 0.12941177, b: 0.12941177, a: 1}
+  m_Color: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1391,7 +1411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 1, b: 0.4, a: 1}
+  m_EffectColor: {r: 0, g: 1, b: 0.40000004, a: 1}
   m_EffectDistance: {x: 7, y: -7}
   m_UseGraphicAlpha: 1
 --- !u!1 &1690809606
@@ -1404,6 +1424,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1690809609}
   - component: {fileID: 1690809608}
+  - component: {fileID: 1690809610}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1477,6 +1498,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1690809610
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690809606}
+  m_Enabled: 1
+--- !u!1 &1760212502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1760212504}
+  - component: {fileID: 1760212503}
+  m_Layer: 0
+  m_Name: MainMenuAudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1760212503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760212502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e56e90ca670b341a0e06ad16aef620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upgradeSFX: {fileID: 11400000, guid: 213e697e4796d034a814960df32b4ee7, type: 2}
+  _cantUpgradeSFX: {fileID: 11400000, guid: de48d54b3fe4e7047ac6ec013b096b0e, type: 2}
+--- !u!4 &1760212504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760212502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1882890442
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1513,6 +1588,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d8eac3f74ca677b4abdabf4ff50f2ddc, type: 3}
+    - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: _audioController
+      value: 
+      objectReference: {fileID: 1760212503}
     - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: _upgradeParticles
       value: 
@@ -1617,22 +1696,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8384609623491444093, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
---- !u!114 &2038398226 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4798312959507392536, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-  m_PrefabInstance: {fileID: 572952861387736820}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &572952861387736820
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1641,38 +1713,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 932366747828582978, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: _text
-      value: 
-      objectReference: {fileID: 2038398226}
-    - target: {fileID: 945324848219717856, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_FillAmount
-      value: 0.173
-      objectReference: {fileID: 0}
-    - target: {fileID: 2235567748743153638, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2235567748743153638, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 2449370399689580767, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1690809608}
-    - target: {fileID: 2449370399689580767, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_RenderMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2547993209625732681, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2547993209625732681, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
     - target: {fileID: 3222228531241545461, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -1680,10 +1724,6 @@ PrefabInstance:
     - target: {fileID: 3222228531241545461, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3706398443990166414, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
-      propertyPath: m_Value
-      value: 0.173
       objectReference: {fileID: 0}
     - target: {fileID: 6632699193927215081, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
       propertyPath: m_Name
@@ -1774,6 +1814,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
+--- !u!114 &572952861387736821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1850671341434922269, guid: b67db23d541ea574a89aca950a9d5b96, type: 3}
+  m_PrefabInstance: {fileID: 572952861387736820}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61b64d4aa0ea3eb48ba2b7a1e74e4b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4996757050320356086
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1887,6 +1938,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 110415090}
     m_Modifications:
+    - target: {fileID: 4208540369247831416, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: _audioController
+      value: 
+      objectReference: {fileID: 1760212503}
     - target: {fileID: 6160568387383212438, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
       propertyPath: m_Name
       value: Upgrade_coins
@@ -1971,6 +2026,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8384609623491444093, guid: df930fc0e8401d1489bd99bbd23f5e97, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1982,8 +2041,9 @@ SceneRoots:
   m_Roots:
   - {fileID: 1191977987}
   - {fileID: 1690809609}
-  - {fileID: 122217525}
   - {fileID: 572952861387736820}
+  - {fileID: 122217525}
   - {fileID: 547870749}
   - {fileID: 4996757050320356086}
   - {fileID: 474835863}
+  - {fileID: 1760212504}

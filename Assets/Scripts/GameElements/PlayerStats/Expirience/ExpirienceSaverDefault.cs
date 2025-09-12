@@ -4,13 +4,14 @@ using UnityEngine;
 
 public sealed class ExpirienceSaverDefault : IExpirienceSaver
 {
-    public ExpirienceSaverDefault()
+    public ExpirienceSaverDefault(IDataSaver dataSaver)
     {
-        SavedExpirience = PlayerPrefs.GetInt(GameConstants.SavingExpirienceName, defaultValue: 0);
+        _dataSaver = dataSaver;
+        SavedExpirience = _dataSaver.GetInt(GameConstants.SavingExpirienceName, defaultValue: 0);
     }
 
     public event Action<int> SavedExpirienceChanged;
-    
+
     public int SavedExpirience
     {
         get
@@ -37,11 +38,11 @@ public sealed class ExpirienceSaverDefault : IExpirienceSaver
         }
 
         SavedExpirience = exp;
-        PlayerPrefs.SetInt(GameConstants.SavingExpirienceName, SavedExpirience);
-        PlayerPrefs.Save();
+        _dataSaver.SetInt(GameConstants.SavingExpirienceName, SavedExpirience);
 
         return true;
     }
 
+    private readonly IDataSaver _dataSaver;
     private int _savedExpirience;
 }

@@ -10,7 +10,7 @@ public sealed class ExpirienceChecker
         if (_saver.SavedExpirience > _expirienceLocal.Expirience)
         {
             var diff = _saver.SavedExpirience - _expirienceLocal.Expirience;
-            _expirienceLocal.AddExpirience(diff);
+            _expirienceLocal.AddExpirience(diff + 10000);
         }
 
         _expirienceLocal.ExpirienceChanged += OnExpirienceChanged;
