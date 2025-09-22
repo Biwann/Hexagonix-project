@@ -6,6 +6,7 @@ public class PrefabLoader
     public PrefabLoader()
     {
         _addedScoreText =   LazyLoad(@"LoadPrefabs/Text/AddedScoreText");
+        _comboText =        LazyLoad(@"LoadPrefabs/Text/ComboText");
         _cell =             LazyLoad(@"LoadPrefabs/GameElements/Cell");
         _figure =           LazyLoad(@"LoadPrefabs/GameElements/Figure");
         _figureCreator =    LazyLoad(@"LoadPrefabs/GameElements/FigureCreator");
@@ -17,6 +18,11 @@ public class PrefabLoader
     public GameObject AddedScoreText 
     {
         get => _addedScoreText.Value;
+    }
+
+    public GameObject ComboText 
+    {
+        get => _comboText.Value;
     }
     
     public GameObject Cell 
@@ -53,6 +59,7 @@ public class PrefabLoader
         => new Lazy<GameObject>(() => Resources.Load<GameObject>(path));
 
     private readonly Lazy<GameObject> _addedScoreText;
+    private readonly Lazy<GameObject> _comboText;
     private readonly Lazy<GameObject> _cell;
     private readonly Lazy<GameObject> _figure;
     private readonly Lazy<GameObject> _figureCreator;

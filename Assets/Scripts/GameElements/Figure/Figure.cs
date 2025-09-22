@@ -159,7 +159,7 @@ public sealed class Figure : MonoBehaviour
             var objRealPositionY = objPosition.y - deltaY;
 
             obj.transform.DOComplete();
-            obj.transform.DOScale(new Vector3(scale - DELTA_SCALE, scale - DELTA_SCALE), 0.2f);
+            obj.transform.DOScale(new Vector3(scale - DELTA_SCALE, scale - DELTA_SCALE, 1), 0.2f);
             obj.transform.DOLocalMove(
                 new Vector3(objRealPositionX, objRealPositionY, objPosition.z),
                 0.2f);

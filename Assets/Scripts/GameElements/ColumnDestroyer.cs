@@ -66,7 +66,10 @@ public sealed class ColumnDestroyer
             var xPosition = cellsToClear.Average(c => c.transform.position.x);
             var yPosition = cellsToClear.Average(c => c.transform.position.y) + 1f;
             var zPosition = cellsToClear.First().transform.position.z;
-            _textAnimation.CreateAnimatedAddedScoreText(resultedPoints, new Vector3(xPosition, yPosition, zPosition));
+            var position = new Vector3(xPosition, yPosition, zPosition);
+
+            _textAnimation.CreateAnimatedAddedScoreText(resultedPoints, position);
+            _textAnimation.CreateAnimatedComboText(multiplier, position);
         }
     }
 
